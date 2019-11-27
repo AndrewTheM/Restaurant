@@ -9,10 +9,10 @@ namespace eRestaurant.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        protected readonly DbContext _context;
+        protected readonly ApplicationContext _context;
         private readonly DbSet<T> _set;
 
-        public Repository(DbContext context)
+        public Repository(ApplicationContext context)
         {
             _context = context;
             _set = context.Set<T>();

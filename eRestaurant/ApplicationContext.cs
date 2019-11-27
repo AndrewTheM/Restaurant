@@ -16,9 +16,9 @@ namespace eRestaurant
         public DbSet<OrderStatus> OrderStatuses { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Unit> Units { get; set; }
-        //public DbSet<User> Users { get; set; }
         public DbSet<Waiter> Waiters { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<UserProfile> Profiles { get; set; }
 
         public ApplicationContext(DbContextOptions options) : base(options) => Database.EnsureCreated();
 

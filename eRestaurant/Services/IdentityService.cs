@@ -1,4 +1,5 @@
-﻿using eRestaurant.Repositories;
+﻿using eRestaurant.Entities;
+using eRestaurant.Repositories;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace eRestaurant.Services
 
             if (existingUser != null) return false;
 
-            var newUser = new IdentityUser
+            var newUser = new User
             {
                 Id = Guid.NewGuid().ToString(),
                 Email = email,

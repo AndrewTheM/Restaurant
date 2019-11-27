@@ -1,4 +1,5 @@
 ﻿using eRestaurant.Entities;
+using Microsoft.AspNetCore.Identity;
 using System;
 
 namespace eRestaurant.Repositories
@@ -14,6 +15,11 @@ namespace eRestaurant.Repositories
         IRepository<User> Users { get; }
         IRepository<Waiter> Waiters { get; }
         IRepository<Customer> Customers { get; }
+
+        UserManager<User> UserManager { get; }
+        RoleManager<IdentityRole> RoleManager { get; }
+        SignInManager<User> SignInManager { get; }
+
 
         void SaveChanges();
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,7 +8,12 @@ namespace eRestaurant.Entities
 {
     public class UserProfile
     {
-        public int UserId { get; set; }
+        [Key]
+        public int Id { get; set; }
+
+        public DateTime? DateOfBirth { get; set; }
+
+        public string UserId { get; set; }
         public User User { get; set; }
 
         public IList<Order> Orders { get; set; }

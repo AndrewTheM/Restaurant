@@ -9,7 +9,5 @@ namespace eRestaurant.Entities
     {
         public int ProfileId { get; set; }
         public UserProfile Profile { get; set; }
-
-        public DateTime? DateOfBirth { get; set; }
     }
 }

@@ -34,9 +34,9 @@ namespace eRestaurant.Repositories
             SignInManager = signInManager;
         }
 
-        public UserManager<User> UserManager { get; private set; }
-        public RoleManager<IdentityRole> RoleManager { get; private set; }
-        public SignInManager<User> SignInManager { get; private set; }
+        public UserManager<User> UserManager { get; }
+        public RoleManager<IdentityRole> RoleManager { get; }
+        public SignInManager<User> SignInManager { get; }
         
         public IDishRepository Dishes { get; }
         public IRepository<DishType> DishTypes { get; }
