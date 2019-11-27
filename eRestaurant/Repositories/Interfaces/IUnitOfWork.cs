@@ -12,9 +12,9 @@ namespace eRestaurant.Repositories
         IRepository<OrderStatus> OrderStatuses { get; }
         IRepository<Review> Reviews { get; }
         IRepository<Unit> Units { get; }
-        IRepository<User> Users { get; }
         IRepository<Waiter> Waiters { get; }
         IRepository<Customer> Customers { get; }
+        IRepository<UserProfile> Profiles { get; }
 
         UserManager<User> UserManager { get; }
         RoleManager<IdentityRole> RoleManager { get; }

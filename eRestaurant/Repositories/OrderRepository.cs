@@ -11,9 +11,9 @@ namespace eRestaurant.Repositories
     {
         public OrderRepository(ApplicationContext context) : base(context) { }
 
-        public decimal CalcTotalIncome() => GetAll().Sum(o => CalcTotalPrice(o.Id));
+        public double CalcTotalIncome() => GetAll().Sum(o => CalcTotalPrice(o.Id));
 
-        public decimal CalcTotalPrice(int id) => GetDishesOfOrder(id).Sum(d => d.Price * d.Quantity);
+        public double CalcTotalPrice(int id) => GetDishesOfOrder(id).Sum(d => d.Price * d.Quantity);
 
         public IEnumerable<Order> GetByTableNbr(int tableNbr) => GetAll().Where(o => o.TableNbr == tableNbr);
 

@@ -10,7 +10,7 @@ namespace eRestaurant.Repositories
     {
         IEnumerable<Order> GetByTableNbr(int tableNbr);
         IEnumerable<Dish> GetDishesOfOrder(int id);
-        decimal CalcTotalPrice(int id);
-        decimal CalcTotalIncome();
+        double CalcTotalPrice(int id);
+        double CalcTotalIncome();
     }
 }

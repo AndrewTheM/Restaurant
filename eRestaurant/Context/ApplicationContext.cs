@@ -29,6 +29,8 @@ namespace eRestaurant
             modelBuilder.Entity<OrderDish>().HasKey(od => new { od.OrderId, od.DishId });
             modelBuilder.Entity<OrderDish>().HasOne(od => od.Order).WithMany(o => o.OrderDishes).HasForeignKey(od => od.OrderId);
             modelBuilder.Entity<OrderDish>().HasOne(od => od.Dish).WithMany(d => d.OrderDishes).HasForeignKey(od => od.DishId);
+
+            modelBuilder.Entity<User>().HasOne(u => u.Profile).WithOne(p => p.User).HasForeignKey<UserProfile>(p => p.UserId);
         }
     }
 }

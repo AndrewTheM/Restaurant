@@ -8,17 +8,13 @@ using System.Threading.Tasks;
 
 namespace eRestaurant.Controllers
 {
-    [Route("/api/identity")]
     public class IdentityController : Controller
     {
         private readonly IIdentityService _identityService;
 
-        public IdentityController(IIdentityService identityService)
-        {
-            _identityService = identityService;
-        }
+        public IdentityController(IIdentityService identityService) => _identityService = identityService;
 
-        [HttpPost("/register")]
+        [HttpPost]
         public async Task<IActionResult> Register([FromBody] UserRegistrationRequest request)
         {
             if (!ModelState.IsValid) return BadRequest();
@@ -30,7 +26,7 @@ namespace eRestaurant.Controllers
             return Ok();
         }
 
-        [HttpPost("/login")]
+        [HttpPost]
         public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
         {
             bool authResponse = await _identityService.LoginAsync(request.Email, request.Password);

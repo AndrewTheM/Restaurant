@@ -14,7 +14,7 @@ namespace eRestaurant.Entities
         public int? TypeId { get; set; }
         public DishType Type { get; set; }
 
-        public decimal Price { get; set; }
+        public double Price { get; set; }
         public int Quantity { get; set; }
 
         public int? UnitId { get; set; }

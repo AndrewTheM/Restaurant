@@ -42,6 +42,7 @@ namespace eRestaurant
             services.AddTransient<IRepository<Customer>, Repository<Customer>>();
             services.AddTransient<IRepository<Waiter>, Repository<Waiter>>();
             services.AddTransient<IRepository<Unit>, Repository<Unit>>();
+            services.AddTransient<IRepository<UserProfile>, Repository<UserProfile>>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddTransient<UserManager<User>>();
@@ -52,7 +53,7 @@ namespace eRestaurant
             services.AddIdentity<User, IdentityRole>(config =>
             {
                 config.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
-            });
+            }).AddEntityFrameworkStores<ApplicationContext>();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -93,6 +94,9 @@ namespace eRestaurant
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "api/{controller}/{action}/{id?}");
             });
         }
     }

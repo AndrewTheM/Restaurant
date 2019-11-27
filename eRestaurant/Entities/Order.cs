@@ -11,15 +11,13 @@ namespace eRestaurant.Entities
         public int Id { get; set; }
 
         public int? CustomerId { get; set; }
-        public User Customer { get; set; }
+        public Customer Customer { get; set; }
 
         public int? StatusId { get; set; }
         public OrderStatus Status { get; set; }
 
-        [NotMapped]
         public int? WaiterId { get; set; }
-        [NotMapped]
-        public User Waiter { get; set; }
+        public Waiter Waiter { get; set; }
 
         public int TableNbr { get; set; }
         public bool Tips { get; set; }
