@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using eRestaurant;
 using eRestaurant.Repositories;
+using eRestaurant.Entities;
 
 namespace eRestaurant
 {
@@ -32,6 +33,14 @@ namespace eRestaurant
             services.AddDbContext<ApplicationContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("SqlServerConn")));
             services.AddTransient<IDishRepository, DishRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IRepository<DishType>, Repository<DishType>>();
+            services.AddTransient<IRepository<OrderStatus>, Repository<OrderStatus>>();
+            services.AddTransient<IRepository<Review>, Repository<Review>>();
+            services.AddTransient<IRepository<User>, Repository<User>>();
+            services.AddTransient<IRepository<Customer>, Repository<Customer>>();
+            services.AddTransient<IRepository<Waiter>, Repository<Waiter>>();
+            services.AddTransient<IRepository<Unit>, Repository<Unit>>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

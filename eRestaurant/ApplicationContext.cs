@@ -19,7 +19,7 @@ namespace eRestaurant
         public DbSet<Waiter> Waiters { get; set; }
         public DbSet<Customer> Customers { get; set; }
 
-        public ApplicationContext() => Database.EnsureCreated();
+        public ApplicationContext(DbContextOptions options) : base(options) => Database.EnsureCreated();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

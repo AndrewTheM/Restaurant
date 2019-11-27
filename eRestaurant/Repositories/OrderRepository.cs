@@ -9,7 +9,7 @@ namespace eRestaurant.Repositories
 {
     public class OrderRepository : Repository<Order>, IOrderRepository
     {
-        public OrderRepository(DbContext context) : base(context) { }
+        public OrderRepository(ApplicationContext context) : base(context) { }
 
         public decimal CalcTotalIncome() => GetAll().Sum(o => CalcTotalPrice(o.Id));
 
