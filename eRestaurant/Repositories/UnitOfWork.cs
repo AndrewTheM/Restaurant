@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using eRestaurant.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace eRestaurant.Repositories
 {
@@ -13,8 +14,10 @@ namespace eRestaurant.Repositories
         public UnitOfWork(ApplicationContext context,
                 IDishRepository dishes, IRepository<DishType> dishTypes,
                 IOrderRepository orders, IRepository<OrderStatus> orderStatuses,
-                IRepository<Review> reviews, IRepository<Unit> units, IRepository<User> users,
-                IRepository<Waiter> waiters, IRepository<Customer> customers)
+                IRepository<Review> reviews, IRepository<Unit> units, 
+                IRepository<User> users, IRepository<Waiter> waiters,
+                IRepository<Customer> customers, UserManager<User> userManager,
+                RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager)
         {
             _context = context;
             Dishes = dishes;
@@ -26,7 +29,14 @@ namespace eRestaurant.Repositories
             Users = users;
             Waiters = waiters;
             Customers = customers;
+            UserManager = userManager;
+            RoleManager = roleManager;
+            SignInManager = signInManager;
         }
+
+        public UserManager<User> UserManager { get; private set; }
+        public RoleManager<IdentityRole> RoleManager { get; private set; }
+        public SignInManager<User> SignInManager { get; private set; }
         
         public IDishRepository Dishes { get; }
         public IRepository<DishType> DishTypes { get; }
