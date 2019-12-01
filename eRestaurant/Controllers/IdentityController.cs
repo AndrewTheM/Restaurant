@@ -17,12 +17,12 @@ namespace eRestaurant.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] UserRegistrationRequest request)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid)
+                return BadRequest();
 
             bool authResponse = await _identityService.RegisterAsync(request.Email, request.Password);
-
-            if (!authResponse) return BadRequest();
-
+            if (!authResponse)
+                return BadRequest();
             return Ok();
         }
 
@@ -30,9 +30,8 @@ namespace eRestaurant.Controllers
         public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
         {
             bool authResponse = await _identityService.LoginAsync(request.Email, request.Password);
-
-            if (!authResponse) return BadRequest();
-
+            if (!authResponse)
+                return BadRequest();
             return Ok();
         }
     }

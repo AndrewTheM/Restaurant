@@ -15,10 +15,11 @@ namespace eRestaurant
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderStatus> OrderStatuses { get; set; }
         public DbSet<Review> Reviews { get; set; }
-        public DbSet<Unit> Units { get; set; }
+        public DbSet<UnitOfMeasurement> Units { get; set; }
         public DbSet<Waiter> Waiters { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<UserProfile> Profiles { get; set; }
+        public DbSet<DishImage> Images { get; set; }
 
         public ApplicationContext(DbContextOptions options) : base(options) => Database.EnsureCreated();
 
@@ -31,6 +32,8 @@ namespace eRestaurant
             modelBuilder.Entity<OrderDish>().HasOne(od => od.Dish).WithMany(d => d.OrderDishes).HasForeignKey(od => od.DishId);
 
             modelBuilder.Entity<User>().HasOne(u => u.Profile).WithOne(p => p.User).HasForeignKey<UserProfile>(p => p.UserId);
+            modelBuilder.Entity<Waiter>().HasOne(w => w.Profile).WithOne(u => u.Waiter).HasForeignKey<UserProfile>(p => p.WaiterId);
+            modelBuilder.Entity<Customer>().HasOne(c => c.Profile).WithOne(u => u.Customer).HasForeignKey<UserProfile>(p => p.CustomerId);
         }
     }
 }

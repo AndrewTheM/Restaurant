@@ -11,8 +11,6 @@ namespace eRestaurant.Repositories
     {
         public DishRepository(ApplicationContext context) : base(context) { }
 
-        public ApplicationContext Context => _context as ApplicationContext;
-
         public IEnumerable<Dish> GetByTypeName(string typeName) => GetAll().Where(d => d.Type.Name == typeName);
 
         public IEnumerable<Dish> GetHighestRatedOfType(string typeName, int count) => GetByTypeName(typeName).OrderByDescending(d => d.Reviews.Average(r => r.Rating)).Take(count);

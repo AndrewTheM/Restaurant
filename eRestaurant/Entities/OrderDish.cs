@@ -7,5 +7,7 @@
 
         public int DishId { get; set; }
         public Dish Dish { get; set; }
+
+        public int Quantity { get; set; }
     }
 }

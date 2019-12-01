@@ -16,8 +16,6 @@ namespace eRestaurant.Entities
         public string UserId { get; set; }
         public User User { get; set; }
 
-        public IList<Order> Orders { get; set; }
-
         public int? CustomerId { get; set; }
         public Customer Customer { get; set; }
 

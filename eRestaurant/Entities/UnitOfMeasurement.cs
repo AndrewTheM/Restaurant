@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace eRestaurant.Entities
 {
-    public class Unit
+    public class UnitOfMeasurement
     {
         [Key]
         public int Id { get; set; }

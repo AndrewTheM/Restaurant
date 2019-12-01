@@ -32,29 +32,12 @@ namespace eRestaurant
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
             services.AddDbContext<ApplicationContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("SqlServerConn")));
-            services.AddTransient<IDishRepository, DishRepository>();
-            services.AddTransient<IOrderRepository, OrderRepository>();
-            services.AddTransient<IRepository<DishType>, Repository<DishType>>();
-            services.AddTransient<IRepository<OrderStatus>, Repository<OrderStatus>>();
-            services.AddTransient<IRepository<Review>, Repository<Review>>();
-            services.AddTransient<IRepository<User>, Repository<User>>();
-            services.AddTransient<IRepository<Customer>, Repository<Customer>>();
-            services.AddTransient<IRepository<Waiter>, Repository<Waiter>>();
-            services.AddTransient<IRepository<Unit>, Repository<Unit>>();
-            services.AddTransient<IRepository<UserProfile>, Repository<UserProfile>>();
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
-
-            services.AddTransient<UserManager<User>>();
-            services.AddTransient<RoleManager<IdentityRole>>();
-            services.AddTransient<SignInManager<User>>();
-            services.AddTransient<IIdentityService, IdentityService>();
-
             services.AddIdentity<User, IdentityRole>(config =>
             {
                 config.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
             }).AddEntityFrameworkStores<ApplicationContext>();
-
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.
@@ -75,6 +58,25 @@ namespace eRestaurant
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = false;
             });
+
+            services.AddTransient<IDishRepository, DishRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IRepository<DishType>, Repository<DishType>>();
+            services.AddTransient<IRepository<OrderStatus>, Repository<OrderStatus>>();
+            services.AddTransient<IRepository<Review>, Repository<Review>>();
+            services.AddTransient<IRepository<User>, Repository<User>>();
+            services.AddTransient<IRepository<Customer>, Repository<Customer>>();
+            services.AddTransient<IRepository<Waiter>, Repository<Waiter>>();
+            services.AddTransient<IRepository<UnitOfMeasurement>, Repository<UnitOfMeasurement>>();
+            services.AddTransient<IRepository<UserProfile>, Repository<UserProfile>>();
+            services.AddTransient<IRepository<DishImage>, Repository<DishImage>>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+            services.AddTransient<UserManager<User>>();
+            services.AddTransient<RoleManager<IdentityRole>>();
+            services.AddTransient<SignInManager<User>>();
+
+            services.AddTransient<IIdentityService, IdentityService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

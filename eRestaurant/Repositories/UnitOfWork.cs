@@ -14,10 +14,11 @@ namespace eRestaurant.Repositories
         public UnitOfWork(ApplicationContext context,
                 IDishRepository dishes, IRepository<DishType> dishTypes,
                 IOrderRepository orders, IRepository<OrderStatus> orderStatuses,
-                IRepository<Review> reviews, IRepository<Unit> units,
+                IRepository<Review> reviews, IRepository<UnitOfMeasurement> units,
                 IRepository<Waiter> waiters, IRepository<Customer> customers,
-                IRepository<UserProfile> profiles, UserManager<User> userManager,
-                RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager)
+                IRepository<UserProfile> profiles, IRepository<DishImage> images,
+                UserManager<User> userManager, RoleManager<IdentityRole> roleManager,
+                SignInManager<User> signInManager)
         {
             _context = context;
             Dishes = dishes;
@@ -29,6 +30,7 @@ namespace eRestaurant.Repositories
             Waiters = waiters;
             Customers = customers;
             Profiles = profiles;
+            Images = images;
             UserManager = userManager;
             RoleManager = roleManager;
             SignInManager = signInManager;
@@ -43,10 +45,11 @@ namespace eRestaurant.Repositories
         public IOrderRepository Orders { get; }
         public IRepository<OrderStatus> OrderStatuses { get; }
         public IRepository<Review> Reviews { get; }
-        public IRepository<Unit> Units { get; }
+        public IRepository<UnitOfMeasurement> Units { get; }
         public IRepository<Waiter> Waiters { get; }
         public IRepository<Customer> Customers { get; }
         public IRepository<UserProfile> Profiles { get; }
+        public IRepository<DishImage> Images { get; }
 
         public void Dispose() => _context.Dispose();
 

@@ -13,7 +13,7 @@ namespace eRestaurant.Repositories
 
         public double CalcTotalIncome() => GetAll().Sum(o => CalcTotalPrice(o.Id));
 
-        public double CalcTotalPrice(int id) => GetDishesOfOrder(id).Sum(d => d.Price * d.Quantity);
+        public double CalcTotalPrice(int id) => Get(id).OrderDishes.Sum(od => od.Quantity * od.Dish.Price);
 
         public IEnumerable<Order> GetByTableNbr(int tableNbr) => GetAll().Where(o => o.TableNbr == tableNbr);
 

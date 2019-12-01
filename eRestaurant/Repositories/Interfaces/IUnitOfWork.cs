@@ -11,15 +11,15 @@ namespace eRestaurant.Repositories
         IOrderRepository Orders { get; }
         IRepository<OrderStatus> OrderStatuses { get; }
         IRepository<Review> Reviews { get; }
-        IRepository<Unit> Units { get; }
+        IRepository<UnitOfMeasurement> Units { get; }
         IRepository<Waiter> Waiters { get; }
         IRepository<Customer> Customers { get; }
         IRepository<UserProfile> Profiles { get; }
+        IRepository<DishImage> Images { get; }
 
         UserManager<User> UserManager { get; }
         RoleManager<IdentityRole> RoleManager { get; }
         SignInManager<User> SignInManager { get; }
-
 
         void SaveChanges();
     }
