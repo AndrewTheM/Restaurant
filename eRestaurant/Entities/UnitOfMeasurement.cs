@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace eRestaurant.Entities
 {
     public class UnitOfMeasurement
     {
-        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
 

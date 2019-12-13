@@ -1,14 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace eRestaurant.Entities
+﻿namespace eRestaurant.Entities
 {
     public class Review
     {
-        [Key]
         public int Id { get; set; }
 
         public int? CustomerId { get; set; }
-        public User Customer { get; set; }
+        public Customer Customer { get; set; }
 
         public string Text { get; set; }
         public int Rating { get; set; }
