@@ -1,11 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using eRestaurant.DTO;
+using System.Threading.Tasks;
 
 namespace eRestaurant.Services
 {
     public interface IIdentityService
     {
-        Task<bool> RegisterAsync(string email, string password);
-
-        Task<bool> LoginAsync(string email, string password);
+        Task<AuthenticationResult> RegisterAsync(string email, string password);
+        Task<AuthenticationResult> LoginAsync(string email, string password);
     }
 }

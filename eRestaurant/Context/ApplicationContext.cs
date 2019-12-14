@@ -1,10 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using eRestaurant.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using eRestaurant.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace eRestaurant
 {
@@ -31,7 +27,7 @@ namespace eRestaurant
             {
                 e.HasKey(c => c.Id);
                 e.HasIndex(c => c.Id);
-                e.HasOne(c => c.Profile).WithOne(up => up.Customer).HasForeignKey<UserProfile>(p => p.CustomerId).OnDelete(DeleteBehavior.Cascade);
+                e.HasOne(c => c.Profile).WithOne(up => up.Customer).HasForeignKey<Customer>(c => c.ProfileId).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Dish>(e =>
@@ -60,8 +56,8 @@ namespace eRestaurant
                 e.HasKey(o => o.Id);
                 e.HasIndex(o => o.Id);
                 e.HasOne(o => o.Customer).WithMany(c => c.Orders).HasForeignKey(o => o.CustomerId).OnDelete(DeleteBehavior.SetNull);
-                e.HasOne(o => o.Waiter).WithMany(w => w.Orders).HasForeignKey(o => o.WaiterId).OnDelete(DeleteBehavior.SetNull);
-                e.HasOne(o => o.Status).WithMany(os => os.Orders).HasForeignKey(o => o.WaiterId).OnDelete(DeleteBehavior.SetNull);
+                e.HasOne(o => o.Status).WithMany(os => os.Orders).HasForeignKey(o => o.StatusId).OnDelete(DeleteBehavior.SetNull);
+                e.HasOne(o => o.Waiter).WithMany(w => w.Orders).HasForeignKey(o => o.WaiterId);
             });
 
             modelBuilder.Entity<OrderDish>(e =>
@@ -96,7 +92,7 @@ namespace eRestaurant
             {
                 e.HasKey(u => u.Id);
                 e.HasIndex(u => u.Id);
-                e.HasOne(u => u.Profile).WithOne(p => p.User).HasForeignKey<UserProfile>(up => up.UserId).OnDelete(DeleteBehavior.Cascade);
+                e.HasOne(u => u.Profile).WithOne(p => p.User).HasForeignKey<User>(u => u.ProfileId).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<UserProfile>(e =>
@@ -109,7 +105,7 @@ namespace eRestaurant
             {
                 e.HasKey(w => w.Id);
                 e.HasIndex(w => w.Id);
-                e.HasOne(w => w.Profile).WithOne(u => u.Waiter).HasForeignKey<UserProfile>(up => up.WaiterId).OnDelete(DeleteBehavior.Cascade);
+                e.HasOne(w => w.Profile).WithOne(up => up.Waiter).HasForeignKey<Waiter>(w => w.ProfileId).OnDelete(DeleteBehavior.Cascade);
             });
         }
     }

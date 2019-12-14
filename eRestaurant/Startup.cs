@@ -16,6 +16,10 @@ using eRestaurant.Repositories;
 using eRestaurant.Entities;
 using Microsoft.AspNetCore.Identity;
 using eRestaurant.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.OpenApi.Models;
 
 namespace eRestaurant
 {
@@ -31,13 +35,14 @@ namespace eRestaurant
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
             services.AddDbContext<ApplicationContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("SqlServerConn")));
             services.AddIdentity<User, IdentityRole>(config =>
             {
                 config.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultEmailProvider;
-            }).AddEntityFrameworkStores<ApplicationContext>();
+            })
+                .AddEntityFrameworkStores<ApplicationContext>()
+                .AddDefaultTokenProviders();
+
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.
@@ -59,24 +64,50 @@ namespace eRestaurant
                 options.User.RequireUniqueEmail = false;
             });
 
-            services.AddTransient<IDishRepository, DishRepository>();
-            services.AddTransient<IOrderRepository, OrderRepository>();
-            services.AddTransient<IRepository<DishType>, Repository<DishType>>();
-            services.AddTransient<IRepository<OrderStatus>, Repository<OrderStatus>>();
-            services.AddTransient<IRepository<Review>, Repository<Review>>();
-            services.AddTransient<IRepository<User>, Repository<User>>();
-            services.AddTransient<IRepository<Customer>, Repository<Customer>>();
-            services.AddTransient<IRepository<Waiter>, Repository<Waiter>>();
-            services.AddTransient<IRepository<UnitOfMeasurement>, Repository<UnitOfMeasurement>>();
-            services.AddTransient<IRepository<UserProfile>, Repository<UserProfile>>();
-            services.AddTransient<IRepository<DishImage>, Repository<DishImage>>();
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            var key = Encoding.ASCII.GetBytes("Secret key for JWT tokens");
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
 
-            services.AddTransient<UserManager<User>>();
-            services.AddTransient<RoleManager<IdentityRole>>();
-            services.AddTransient<SignInManager<User>>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "eRestaurant API", Version = "v0.1" });
+            });
 
-            services.AddTransient<IIdentityService, IdentityService>();
+            services.AddControllers();
+
+            services.AddScoped<IDishRepository, DishRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IRepository<DishType>, Repository<DishType>>();
+            services.AddScoped<IRepository<OrderStatus>, Repository<OrderStatus>>();
+            services.AddScoped<IRepository<Review>, Repository<Review>>();
+            services.AddScoped<IRepository<User>, Repository<User>>();
+            services.AddScoped<IRepository<Customer>, Repository<Customer>>();
+            services.AddScoped<IRepository<Waiter>, Repository<Waiter>>();
+            services.AddScoped<IRepository<UnitOfMeasurement>, Repository<UnitOfMeasurement>>();
+            services.AddScoped<IRepository<UserProfile>, Repository<UserProfile>>();
+            services.AddScoped<IRepository<DishImage>, Repository<DishImage>>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<UserManager<User>>();
+            services.AddScoped<RoleManager<IdentityRole>>();
+            services.AddScoped<SignInManager<User>>();
+
+            services.AddScoped<IIdentityService, IdentityService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -93,12 +124,15 @@ namespace eRestaurant
 
             app.UseAuthorization();
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "eRestaurant V0.1");
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "api/{controller}/{action}/{id?}");
             });
         }
     }

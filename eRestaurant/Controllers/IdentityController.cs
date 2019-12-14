@@ -8,31 +8,33 @@ using System.Threading.Tasks;
 
 namespace eRestaurant.Controllers
 {
+    [ApiController]
+    [Route("api/auth")]
     public class IdentityController : Controller
     {
         private readonly IIdentityService _identityService;
 
         public IdentityController(IIdentityService identityService) => _identityService = identityService;
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegistrationRequest request)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(new { Errors = ModelState.Values.SelectMany(v => v.Errors.Select(er => er.ErrorMessage)) });
 
-            bool authResponse = await _identityService.RegisterAsync(request.Email, request.Password);
-            if (!authResponse)
-                return BadRequest();
-            return Ok();
+            var authResponse = await _identityService.RegisterAsync(request.Email, request.Password);
+            if (!authResponse.Success)
+                return BadRequest(new { authResponse.Errors });
+            return Ok(new { authResponse.Token });
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
         {
-            bool authResponse = await _identityService.LoginAsync(request.Email, request.Password);
-            if (!authResponse)
-                return BadRequest();
-            return Ok();
+            var authResponse = await _identityService.LoginAsync(request.Email, request.Password);
+            if (!authResponse.Success)
+                return BadRequest(new { authResponse.Errors });
+            return Ok(new { authResponse.Token });
         }
     }
 }
