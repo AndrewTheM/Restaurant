@@ -108,6 +108,7 @@ namespace eRestaurant
             services.AddScoped<SignInManager<User>>();
 
             services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<IMenuService, MenuService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

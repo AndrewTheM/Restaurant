@@ -7,6 +7,7 @@ namespace eRestaurant.Entities
         public int Id { get; set; }
         public DateTime? DateOfBirth { get; set; }
 
+        public string UserId { get; set; }
         public User User { get; set; }
 
         public Customer Customer { get; set; }

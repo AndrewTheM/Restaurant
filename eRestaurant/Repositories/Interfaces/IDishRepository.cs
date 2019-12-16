@@ -9,5 +9,8 @@ namespace eRestaurant.Repositories
         IEnumerable<Dish> GetByTypeName(string typeName);
         IEnumerable<Dish> GetMostPopularOfType(string typeName, int count);
         IEnumerable<Dish> GetHighestRatedOfType(string typeName, int count);
+        string GetTypeName(int id);
+        string GetUnitName(int id);
+        IEnumerable<byte[]> GetImages(int id);
     }
 }

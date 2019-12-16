@@ -15,16 +15,16 @@ namespace eRestaurant.Services
 {
     public class IdentityService : IIdentityService
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _uow;
 
-        public IdentityService(IUnitOfWork unitOfWork) => _unitOfWork = unitOfWork;
+        public IdentityService(IUnitOfWork unitOfWork) => _uow = unitOfWork;
 
-        public async Task<AuthenticationResult> RegisterAsync(string email, string password)
+        public async Task<AuthResponse> RegisterAsync(string email, string password)
         {
-            var existingUser = await _unitOfWork.UserManager.FindByEmailAsync(email);
+            var existingUser = await _uow.UserManager.FindByEmailAsync(email);
 
             if (existingUser != null)
-                return new AuthenticationResult { Errors = new[] { "User already exists" } };
+                return new AuthResponse { Errors = new[] { "User already exists" } };
 
             var newUser = new User
             {
@@ -33,23 +33,24 @@ namespace eRestaurant.Services
                 UserName = email
             };
 
-            var createdUser = await _unitOfWork.UserManager.CreateAsync(newUser, password);
+            var createdUser = await _uow.UserManager.CreateAsync(newUser, password);
             if (!createdUser.Succeeded)
-                return new AuthenticationResult { Errors = createdUser.Errors.Select(er => er.Description) };
-            return new AuthenticationResult { Success = true, Token = await GenerateJwtToken(newUser) };
+                return new AuthResponse { Errors = createdUser.Errors.Select(er => er.Description) };
+            _uow.Profiles.Add(new UserProfile { UserId = newUser.Id });
+            return new AuthResponse { Success = true, Token = await GenerateJwtToken(newUser) };
         }
 
-        public async Task<AuthenticationResult> LoginAsync(string email, string password)
+        public async Task<AuthResponse> LoginAsync(string email, string password)
         {
-            var user = await _unitOfWork.UserManager.FindByEmailAsync(email);
+            var user = await _uow.UserManager.FindByEmailAsync(email);
 
             if (user == null)
-                return new AuthenticationResult { Errors = new[] { "User not found" } };
+                return new AuthResponse { Errors = new[] { "User not found" } };
 
-            var passwordCorrect = await _unitOfWork.UserManager.CheckPasswordAsync(user, password);
+            var passwordCorrect = await _uow.UserManager.CheckPasswordAsync(user, password);
             if (!passwordCorrect)
-                return new AuthenticationResult { Errors = new[] { "Incorrect password" } };
-            return new AuthenticationResult { Success = true, Token = await GenerateJwtToken(user) };
+                return new AuthResponse { Errors = new[] { "Incorrect password" } };
+            return new AuthResponse { Success = true, Token = await GenerateJwtToken(user) };
         }
 
         protected async Task<string> GenerateJwtToken(User user)
@@ -65,19 +66,19 @@ namespace eRestaurant.Services
                 new Claim("id", user.Id)
             };
 
-            var userClaims = await _unitOfWork.UserManager.GetClaimsAsync(user);
+            var userClaims = await _uow.UserManager.GetClaimsAsync(user);
             claims.AddRange(userClaims);
 
-            var userRoles = await _unitOfWork.UserManager.GetRolesAsync(user);
+            var userRoles = await _uow.UserManager.GetRolesAsync(user);
             foreach (var userRole in userRoles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, userRole));
 
-                var role = await _unitOfWork.RoleManager.FindByNameAsync(userRole);
+                var role = await _uow.RoleManager.FindByNameAsync(userRole);
                 if (role == null)
                     continue;
 
-                var roleClaims = await _unitOfWork.RoleManager.GetClaimsAsync(role);
+                var roleClaims = await _uow.RoleManager.GetClaimsAsync(role);
                 foreach (var roleClaim in roleClaims)
                 {
                     if (claims.Contains(roleClaim))
