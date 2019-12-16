@@ -1,9 +1,6 @@
 ﻿using eRestaurant.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace eRestaurant.Repositories
 {
@@ -15,33 +12,20 @@ namespace eRestaurant.Repositories
 
         public IEnumerable<Dish> GetHighestRatedOfType(string typeName, int count) => GetByTypeName(typeName).OrderByDescending(d => d.Reviews.Average(r => r.Rating)).Take(count);
 
-        public IEnumerable<byte[]> GetImages(int id)
-        {
-            var dishes = GetAll();
-            return _context.Images.Join(dishes,
-                                        di => di.DishId,
-                                        d => d.Id,
-                                        (di, d) => di.Image);
-        }
+        public IEnumerable<byte[]> GetImages(int id) => _context.Images.Where(di => di.DishId == id).Select(di => di.Image);
 
         public IEnumerable<Dish> GetMostPopularOfType(string typeName, int count) => GetByTypeName(typeName).OrderByDescending(d => d.OrderDishes.Count()).Take(count);
 
         public string GetTypeName(int id)
         {
-            var dishes = GetAll();
-            return _context.DishTypes.Join(dishes, 
-                                           dt => dt.Id,
-                                           d => d.TypeId,
-                                           (dt, d) => dt.Name).FirstOrDefault();
+            var typeId = Get(id).TypeId;
+            return _context.DishTypes.Where(dt => dt.Id == typeId).FirstOrDefault()?.Name;
         }
 
         public string GetUnitName(int id)
         {
-            var dishes = GetAll();
-            return _context.Units.Join(dishes,
-                                       u => u.Id,
-                                       d => d.UnitId,
-                                       (u, d) => u.Name).FirstOrDefault();
+            var unitId = Get(id).UnitId;
+            return _context.Units.Where(u => u.Id == unitId).FirstOrDefault()?.Name;
         }
     }
 }
