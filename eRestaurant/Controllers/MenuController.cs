@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using eRestaurant;
 using eRestaurant.Entities;
 using eRestaurant.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace eRestaurant.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/menu")]
     public class MenuController : Controller

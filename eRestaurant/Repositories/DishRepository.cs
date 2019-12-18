@@ -8,7 +8,7 @@ namespace eRestaurant.Repositories
     {
         public DishRepository(ApplicationContext context) : base(context) { }
 
-        public double CalculateAvgRating(int id) => _context.Reviews.Where(r => r.DishId == id).Average(r => r.Rating);
+        public double CalculateAvgRating(int id) => _context.Reviews.Where(r => r.DishId == id)?.Average(r => r.Rating) ?? 0;
 
         public IEnumerable<Dish> GetByTypeName(string typeName) => GetAll().Where(d => d.Type.Name == typeName);
 
