@@ -10,10 +10,11 @@ namespace eRestaurant.DTO
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public double Price { get; set; }
+        public string Price { get; set; }
         public string Portion { get; set; }
         public string CookingTime { get; set; }
         public string Type { get; set; }
+        public double Rating { get; set; }
         public byte[] Image { get; set; }
     }
 }

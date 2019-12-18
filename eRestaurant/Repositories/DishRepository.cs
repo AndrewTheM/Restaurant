@@ -8,6 +8,8 @@ namespace eRestaurant.Repositories
     {
         public DishRepository(ApplicationContext context) : base(context) { }
 
+        public double CalculateAvgRating(int id) => _context.Reviews.Where(r => r.DishId == id).Average(r => r.Rating);
+
         public IEnumerable<Dish> GetByTypeName(string typeName) => GetAll().Where(d => d.Type.Name == typeName);
 
         public IEnumerable<Dish> GetHighestRatedOfType(string typeName, int count) => GetByTypeName(typeName).OrderByDescending(d => d.Reviews.Average(r => r.Rating)).Take(count);

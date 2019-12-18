@@ -12,5 +12,6 @@ namespace eRestaurant.Repositories
         string GetTypeName(int id);
         string GetUnitName(int id);
         IEnumerable<byte[]> GetImages(int id);
+        double CalculateAvgRating(int id);
     }
 }
