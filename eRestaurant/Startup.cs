@@ -1,4 +1,4 @@
-using System;
+ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,6 +22,7 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.IO;
+using AutoMapper;
 
 namespace eRestaurant
 {
@@ -90,37 +91,35 @@ namespace eRestaurant
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "eRestaurant", Version = "v1" });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+                    Description = @"JWT Authorization header using the Bearer scheme.
                                   Enter 'Bearer' [space] and then your token in the text input below.
-                                  \r\n\r\nExample: 'Bearer 12345abcdef'",
+                                  Example: 'Bearer 12345abcdef'",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,
                     Scheme = "Bearer"
                 });
 
-                //c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                //  {
-                //    {
-                //      new OpenApiSecurityScheme
-                //      {
-                //        Reference = new OpenApiReference
-                //          {
-                //            Type = ReferenceType.SecurityScheme,
-                //            Id = "Bearer"
-                //          },
-                //          Scheme = "oauth2",
-                //          Name = "Bearer",
-                //          In = ParameterLocation.Header,
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                  {
+                    {
+                      new OpenApiSecurityScheme
+                      {
+                        Reference = new OpenApiReference
+                          {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                          },
+                          Scheme = "oauth2",
+                          Name = "Bearer",
+                          In = ParameterLocation.Header,
 
-                //        },
-                //        new List<string>()
-                //      }
-                //    });
-                //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                //c.IncludeXmlComments(xmlPath);
+                        },
+                        new List<string>()
+                      }
+                    });
             });
+            services.AddAutoMapper(typeof(Startup));
 
 
             services.AddControllers();
@@ -153,17 +152,23 @@ namespace eRestaurant
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseHsts();
+            }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "eRestaurant V0.1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "eRestaurant V1");
             });
 
             app.UseEndpoints(endpoints =>

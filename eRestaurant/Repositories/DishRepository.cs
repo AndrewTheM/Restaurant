@@ -8,26 +8,34 @@ namespace eRestaurant.Repositories
     {
         public DishRepository(ApplicationContext context) : base(context) { }
 
-        public double CalculateAvgRating(int id) => _context.Reviews.Where(r => r.DishId == id)?.Average(r => r.Rating) ?? 0;
+        public double CalculateAvgRating(int id)
+        {
+            var reviews = _context.Reviews?.Where(r => r.DishId == id);
+            if (reviews.Any())
+                return reviews.Average(r => r.Rating);
+            return 0;
+        }
 
         public IEnumerable<Dish> GetByTypeName(string typeName) => GetAll().Where(d => d.Type.Name == typeName);
 
+        public DishImage GetFirstImage(int id) => _context.Images.Where(di => di.DishId == id).FirstOrDefault();
+
         public IEnumerable<Dish> GetHighestRatedOfType(string typeName, int count) => GetByTypeName(typeName).OrderByDescending(d => d.Reviews.Average(r => r.Rating)).Take(count);
 
-        public IEnumerable<byte[]> GetImages(int id) => _context.Images.Where(di => di.DishId == id).Select(di => di.Image);
+        public IEnumerable<byte[]> GetImageCodes(int id) => _context.Images.Where(di => di.DishId == id).Select(di => di.Image);
 
         public IEnumerable<Dish> GetMostPopularOfType(string typeName, int count) => GetByTypeName(typeName).OrderByDescending(d => d.OrderDishes.Count()).Take(count);
 
-        public string GetTypeName(int id)
+        public DishType GetType(int id)
         {
             var typeId = Get(id).TypeId;
-            return _context.DishTypes.Where(dt => dt.Id == typeId).FirstOrDefault()?.Name;
+            return _context.DishTypes.Where(dt => dt.Id == typeId).FirstOrDefault();
         }
 
-        public string GetUnitName(int id)
+        public UnitOfMeasurement GetUnit(int id)
         {
             var unitId = Get(id).UnitId;
-            return _context.Units.Where(u => u.Id == unitId).FirstOrDefault()?.Name;
+            return _context.Units.Where(u => u.Id == unitId).FirstOrDefault();
         }
     }
 }

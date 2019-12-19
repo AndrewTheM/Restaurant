@@ -1,10 +1,11 @@
-﻿using System;
+﻿using AutoMapper;
+using eRestaurant.DTO;
+using eRestaurant.Helpers;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace eRestaurant.Extensions
 {
@@ -16,5 +17,17 @@ namespace eRestaurant.Extensions
             image.Save(ms, ImageFormat.Jpeg);
             return ms.ToArray();
         }
+
+        public static TDestination Map<TDestination>(this IMapper mapper, params object[] sources)
+        {
+            if (!sources.Any())
+                return default;
+            var destination = mapper.Map<TDestination>(sources.First());
+            foreach (var source in sources.Skip(1))
+                mapper.Map(source, destination);
+            return destination;
+        }
+
+        public static PagedList<T> ToPagedList<T>(this IEnumerable<T> enumerable, PagingParameters pars) => new PagedList<T>(enumerable, pars);
     }
 }
