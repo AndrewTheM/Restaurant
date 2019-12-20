@@ -2,15 +2,16 @@
 using eRestaurant.DTO;
 using eRestaurant.Helpers;
 using eRestaurant.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace eRestaurant.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/menu")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class MenuController : Controller
     {
         private readonly IMenuService _menuService;
@@ -38,6 +39,13 @@ namespace eRestaurant.Controllers
             if (item == null)
                 return NotFound();
             return Ok(item);
+        }
+
+        [HttpPost("create")]
+        public IActionResult CreateMenuItem([FromBody] MenuItem request) // + Request
+        {
+            _menuService.CreateDish(request);
+            return Ok();
         }
     }
 }

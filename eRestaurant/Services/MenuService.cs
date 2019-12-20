@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using eRestaurant.DTO;
+using eRestaurant.Entities;
 using eRestaurant.Extensions;
 using eRestaurant.Helpers;
 using eRestaurant.Repositories;
@@ -19,7 +20,7 @@ namespace eRestaurant.Services
             _mapper = mapper;
         }
 
-        public MenuItemResponse GetMenuItem(int id)
+        public MenuItem GetMenuItem(int id)
         {
             var dish = _repo.Get(id);
 
@@ -30,14 +31,14 @@ namespace eRestaurant.Services
             var type = _repo.GetType(id);
             var image = _repo.GetFirstImage(id);
 
-            var response = _mapper.Map<MenuItemResponse>(dish, unit, type, image);
+            var response = _mapper.Map<MenuItem>(dish, unit, type, image);
             response.Rating = _repo.CalculateAvgRating(id);
             return response;
         }
 
-        public PagedList<MenuItemResponse> GetMenu(PagingParameters pars)
+        public PagedList<MenuItem> GetMenu(PagingParameters pars)
         {
-            var menu = new List<MenuItemResponse>();
+            var menu = new List<MenuItem>();
             var dishes = _repo.GetAll().ToList();
             foreach (var dish in dishes)
             {
@@ -45,6 +46,12 @@ namespace eRestaurant.Services
                 menu.Add(item);
             }
             return menu.ToPagedList(pars);
+        }
+
+        public void CreateDish(MenuItem request)
+        {
+            var dish = new Dish();
+            _repo.Add(dish);
         }
     }
 }

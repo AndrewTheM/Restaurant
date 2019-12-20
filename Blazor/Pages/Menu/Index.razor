@@ -1,0 +1,42 @@
+﻿@page "/menu"
+@inject HttpClient http
+@inject IJSRuntime js
+@using System.Text.Json
+<h3>Menu</h3>
+
+@foreach (var item in menu)
+{
+    <div class="card">
+        <img class="card_img" src="data:image/jpeg;base64, @item.Image" alt="The image of this tasty dish is missing">
+        <div class="card_text">
+            <div class="card_info">
+                <p class="card_title">@item.Type @item.Name</p>
+                <hr>
+                <p>@item.Description</p>
+                <p>@item.Rating stars</p>
+                <p>@item.Portion @item.Unit</p>
+            </div>
+            <p class="card_price">$@item.Price</p>
+            <p class="card_order"><a href="/id">Order</a></p>
+        </div>
+    </div>
+}
+@code {
+    List<MenuItem> menu { get; set; } = new List<MenuItem>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadMenu();
+    }
+
+    async Task LoadMenu()
+    {
+        var response = await http.GetAsync("api/menu");
+        if (response.IsSuccessStatusCode)
+        {
+            var responseStr = await response.Content.ReadAsStringAsync();
+            menu = JsonSerializer.Deserialize<List<MenuItem>>(responseStr,
+                new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        }
+    }
+}
