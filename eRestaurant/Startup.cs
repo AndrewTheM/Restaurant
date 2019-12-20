@@ -151,18 +151,19 @@ namespace eRestaurant
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseBlazorDebugging();
             }
             else
             {
                 app.UseHsts();
             }
 
+            app.UseStaticFiles();
+            app.UseClientSideBlazorFiles<Blazor.Startup>();
+
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthentication();
-
             app.UseAuthorization();
 
             app.UseSwagger();
@@ -174,6 +175,7 @@ namespace eRestaurant
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToClientSideBlazor<Blazor.Startup>("index.html");
             });
         }
     }
