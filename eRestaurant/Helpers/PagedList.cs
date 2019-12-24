@@ -11,8 +11,6 @@ namespace eRestaurant.Helpers
         public int PageSize { get; private set; }
         public int TotalCount { get; private set; }
         public int TotalPages { get; private set; }
-        public bool HasPrevious => CurrentPage > 1;
-        public bool HasNext => CurrentPage < TotalPages;
 
         public PagedList(IEnumerable<T> enumerable, PagingParameters pars)
         {

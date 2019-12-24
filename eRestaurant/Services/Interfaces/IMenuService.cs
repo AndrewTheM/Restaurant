@@ -1,6 +1,7 @@
 ﻿using eRestaurant.DTO;
+using eRestaurant.Entities;
 using eRestaurant.Helpers;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace eRestaurant.Services
 {
@@ -8,6 +9,8 @@ namespace eRestaurant.Services
     {
         PagedList<MenuItem> GetMenu(PagingParameters pars);
         MenuItem GetMenuItem(int id);
-        void CreateDish(MenuItem request); // + Request
+        Task CreateDish(Dish dish);
+        Task UpdateDish(Dish dish);
+        Task DeleteDish(int id);
     }
 }

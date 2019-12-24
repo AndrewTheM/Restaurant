@@ -1,0 +1,16 @@
+﻿@page "/menu/{id:int}"
+
+<h1>Item</h1>
+
+<AuthorizeView>
+    <Authorized>
+        <div class="form-group">
+            <a class="btn btn-success" href="menu/edit">Edit</a>
+            <a class="btn btn-danger" @onclick="">Delete</a>
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    [Parameter] public int id { get; set; }
+}

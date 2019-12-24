@@ -13,9 +13,11 @@ namespace eRestaurant.Extensions
     {
         public static byte[] ToByteArray(this Image image)
         {
-            using var ms = new MemoryStream();
-            image.Save(ms, ImageFormat.Jpeg);
-            return ms.ToArray();
+            using (var ms = new MemoryStream())
+            {
+                image.Save(ms, ImageFormat.Jpeg);
+                return ms.ToArray();
+            }
         }
 
         public static TDestination Map<TDestination>(this IMapper mapper, params object[] sources)

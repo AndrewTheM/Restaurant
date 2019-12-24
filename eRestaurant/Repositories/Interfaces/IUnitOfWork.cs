@@ -1,6 +1,7 @@
 ﻿using eRestaurant.Entities;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Threading.Tasks;
 
 namespace eRestaurant.Repositories
 {
@@ -21,6 +22,7 @@ namespace eRestaurant.Repositories
         RoleManager<IdentityRole> RoleManager { get; }
         SignInManager<User> SignInManager { get; }
 
-        void SaveChanges();
+        void ModifyState(object entity);
+        Task SaveChangesAsync();
     }
 }

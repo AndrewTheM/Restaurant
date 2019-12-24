@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using eRestaurant.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace eRestaurant.Repositories
 {
@@ -53,6 +54,8 @@ namespace eRestaurant.Repositories
 
         public void Dispose() => _context.Dispose();
 
-        public void SaveChanges() => _context.SaveChanges();
+        public void ModifyState(object entity) => _context.Entry(entity).State = EntityState.Modified;
+
+        public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
     }
 }

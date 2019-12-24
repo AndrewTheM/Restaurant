@@ -11,6 +11,6 @@
         public string CookingTime { get; set; }
         public string Type { get; set; }
         public double Rating { get; set; }
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
     }
 }

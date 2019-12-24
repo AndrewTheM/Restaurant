@@ -1,39 +1,57 @@
 ﻿@page "/menu"
 @inject HttpClient http
-@inject IJSRuntime js
 @using System.Text.Json
-<h3>Menu</h3>
 
+<h1>Menu</h1>
+
+<AuthorizeView>
+    <Authorized>
+        <div class="form-group">
+            <a class="btn btn-success" href="menu/create">New Menu Item</a>
+        </div>
+    </Authorized>
+</AuthorizeView>
+
+<Pagination CurrentPage="currentPage" TotalPages="totalPages" SelectedPage="SelectedPage" />
+
+<div class="card-wrapper">
 @foreach (var item in menu)
 {
     <div class="card">
-        <img class="card_img" src="data:image/jpeg;base64, @item.Image" alt="The image of this tasty dish is missing">
-        <div class="card_text">
-            <div class="card_info">
-                <p class="card_title">@item.Type @item.Name</p>
-                <hr>
+        <img class="card-img no-select" src="data:image/jpeg;base64, @item.Image" alt="The image of this tasty dish is missing">
+        <div class="card-text">
+            <div class="card-info">
+                <p class="card-title">@item.Type @item.Name</p>
                 <p>@item.Description</p>
                 <p>@item.Rating stars</p>
                 <p>@item.Portion @item.Unit</p>
+                <p class="card-price">$@item.Price</p>
+                <a class="card-order" href="/menu/@item.Id">Order</a>
             </div>
-            <p class="card_price">$@item.Price</p>
-            <p class="card_order"><a href="/id">Order</a></p>
         </div>
     </div>
 }
+</div>
+
 @code {
+    private int currentPage = 1;
+    private int totalPages;
     List<MenuItem> menu { get; set; } = new List<MenuItem>();
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync() => await LoadMenu();
+
+    private async Task SelectedPage(int page)
     {
-        await LoadMenu();
+        currentPage = page;
+        await LoadMenu(page);
     }
 
-    async Task LoadMenu()
+    private async Task LoadMenu(int page = 1, int size = 2)
     {
-        var response = await http.GetAsync("api/menu");
+        var response = await http.GetAsync($"api/menu?pageNumber={page}&pageSize={size}");
         if (response.IsSuccessStatusCode)
         {
+            totalPages = int.Parse(response.Headers.GetValues("totalPages").FirstOrDefault());
             var responseStr = await response.Content.ReadAsStringAsync();
             menu = JsonSerializer.Deserialize<List<MenuItem>>(responseStr,
                 new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });

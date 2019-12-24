@@ -6,16 +6,19 @@ using eRestaurant.Helpers;
 using eRestaurant.Repositories;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace eRestaurant.Services
 {
     public class MenuService : IMenuService
     {
+        private readonly IUnitOfWork _uow;
         private readonly IDishRepository _repo;
         private readonly IMapper _mapper;
 
         public MenuService(IUnitOfWork unitOfWork, IMapper mapper)
         {
+            _uow = unitOfWork;
             _repo = unitOfWork.Dishes;
             _mapper = mapper;
         }
@@ -48,10 +51,22 @@ namespace eRestaurant.Services
             return menu.ToPagedList(pars);
         }
 
-        public void CreateDish(MenuItem request)
+        public async Task CreateDish(Dish dish)
         {
-            var dish = new Dish();
             _repo.Add(dish);
+            await _uow.SaveChangesAsync();
+        }
+
+        public async Task UpdateDish(Dish dish)
+        {
+            _uow.ModifyState(dish);
+            await _uow.SaveChangesAsync();
+        }
+
+        public async Task DeleteDish(int id)
+        {
+            _repo.Remove(new Dish { Id = id });
+            await _uow.SaveChangesAsync();
         }
     }
 }
