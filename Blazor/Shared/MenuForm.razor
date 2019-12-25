@@ -1,0 +1,108 @@
+﻿@inject HttpClient http
+
+<EditForm Model="@Dish" OnValidSubmit="@OnSubmit">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <div>
+            <label>Name:</label>
+            <div>
+                <InputText @bind-Value="@Dish.Name" />
+                <ValidationMessage For="@(() => Dish.Name)" />
+            </div>
+        </div>
+        <div>
+            <label>Type:</label>
+            <div>
+                <InputSelect @bind-Value="@Dish.TypeId">
+                    @foreach (var type in Types)
+                    {
+                        <option value="@type.Id">@type.Name</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => Dish.TypeId)" />
+            </div>
+        </div>
+        <div>
+            <label>Description:</label>
+            <div>
+                <InputText @bind-Value="@Dish.Description" />
+                <ValidationMessage For="@(() => Dish.Description)" />
+            </div>
+        </div>
+        <div>
+            <label>Price:</label>
+            <div>
+                <InputNumber @bind-Value="@Dish.Price" />
+                <ValidationMessage For="@(() => Dish.Price)" />
+            </div>
+        </div>
+        <div>
+            <label>Portion:</label>
+            <div>
+                <InputNumber @bind-Value="@Dish.PortionSize" />
+                <ValidationMessage For="@(() => Dish.PortionSize)" />
+            </div>
+        </div>
+        <div>
+            <label>Unit:</label>
+            <div>
+                <InputSelect @bind-Value="@Dish.UnitId">
+                    @foreach (var unit in Units)
+                    {
+                        <option value="@unit.Id">@unit.Name</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => Dish.UnitId)" />
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+
+</EditForm>
+
+@code {
+    [Parameter] public Dish Dish { get; set; }
+    [Parameter] public EventCallback OnSubmit { get; set; }
+
+    List<DishType> Types { get; set; } = new List<DishType>();
+    List<UnitOfMeasurement> Units { get; set; } = new List<UnitOfMeasurement>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadTypes();
+        await LoadUnits();
+    }
+
+    private async Task LoadTypes()
+    {
+        //var response = await http.GetAsync("api/config/types");
+        //if (response.IsSuccessStatusCode)
+        //{
+        //    var json = await response.Content.ReadAsStringAsync();
+        //    Types = JsonSerializer.Deserialize<List<DishType>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        //}
+        //else
+        {
+            Types = new List<DishType>();
+            Types.Add(new DishType { Id = 1, Name = "Pizza" });
+            Types.Add(new DishType { Id = 2, Name = "Drink" });
+        }
+    }
+
+    private async Task LoadUnits()
+    {
+        //var response = await http.GetAsync("api/config/units");
+        //if (response.IsSuccessStatusCode)
+        //{
+        //    var json = await response.Content.ReadAsStringAsync();
+        //    Units = JsonSerializer.Deserialize<List<UnitOfMeasurement>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        //}
+        //else
+        {
+            Units = new List<UnitOfMeasurement>();
+            Units.Add(new UnitOfMeasurement { Id = 1, Name = "g" });
+            Units.Add(new UnitOfMeasurement { Id = 2, Name = "ml" });
+        }
+    }
+}

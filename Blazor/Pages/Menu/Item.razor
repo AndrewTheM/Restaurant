@@ -1,16 +1,27 @@
-﻿@page "/menu/{id:int}"
+﻿@page "/menu/{Id:int}"
+@inject HttpClient http
+@inject IJSRuntime js
+@inject NavigationManager nav
 
 <h1>Item</h1>
 
 <AuthorizeView>
     <Authorized>
         <div class="form-group">
-            <a class="btn btn-success" href="menu/edit">Edit</a>
-            <a class="btn btn-danger" @onclick="">Delete</a>
+            <a class="btn btn-success" href="menu/edit/@Id">Edit</a>
+            <a class="btn btn-danger" href="#" @onclick="async () => await DeleteItem()">Delete</a>
         </div>
     </Authorized>
 </AuthorizeView>
 
 @code {
-    [Parameter] public int id { get; set; }
+    [Parameter] public int Id { get; set; }
+
+    private async Task DeleteItem()
+    {
+        //bool confirmed = await js.InvokeAsync<bool>("Confirm", "Confirm", "Are you sure to delete this item?", "question");
+        //if (confirmed)
+        await http.DeleteAsync($"/api/menu/{Id}");
+        nav.NavigateTo("menu");
+    }
 }

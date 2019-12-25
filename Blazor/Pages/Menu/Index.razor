@@ -1,6 +1,5 @@
 ﻿@page "/menu"
 @inject HttpClient http
-@using System.Text.Json
 
 <h1>Menu</h1>
 
@@ -15,7 +14,7 @@
 <Pagination CurrentPage="currentPage" TotalPages="totalPages" SelectedPage="SelectedPage" />
 
 <div class="card-wrapper">
-@foreach (var item in menu)
+@foreach (var item in Menu)
 {
     <div class="card">
         <img class="card-img no-select" src="data:image/jpeg;base64, @item.Image" alt="The image of this tasty dish is missing">
@@ -36,7 +35,7 @@
 @code {
     private int currentPage = 1;
     private int totalPages;
-    List<MenuItem> menu { get; set; } = new List<MenuItem>();
+    List<MenuItem> Menu { get; set; } = new List<MenuItem>();
 
     protected override async Task OnInitializedAsync() => await LoadMenu();
 
@@ -52,9 +51,8 @@
         if (response.IsSuccessStatusCode)
         {
             totalPages = int.Parse(response.Headers.GetValues("totalPages").FirstOrDefault());
-            var responseStr = await response.Content.ReadAsStringAsync();
-            menu = JsonSerializer.Deserialize<List<MenuItem>>(responseStr,
-                new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            var json = await response.Content.ReadAsStringAsync();
+            Menu = JsonSerializer.Deserialize<List<MenuItem>>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
     }
 }

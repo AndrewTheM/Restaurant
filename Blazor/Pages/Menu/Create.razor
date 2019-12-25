@@ -1,7 +1,17 @@
 ﻿@page "/menu/create"
+@inject HttpClient http
+@inject NavigationManager nav
 
 <h1>New Menu Item</h1>
 
-@code {
+<MenuForm Dish="dish" OnSubmit="CreateDish" />
 
+@code {
+    private Dish dish = new Dish();
+
+    private async Task CreateDish()
+    {
+        await http.PostJsonAsync("api/menu", dish);
+        nav.NavigateTo("menu");
+    }
 }

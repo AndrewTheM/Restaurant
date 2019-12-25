@@ -1,7 +1,22 @@
-﻿@page "/menu/edit"
+﻿@page "/menu/edit/{Id:int}"
+@inject HttpClient http
+@inject NavigationManager nav
 
 <h1>Edit Menu Item</h1>
 
-@code {
+<MenuForm Dish="dish" OnSubmit="EditDish" />
 
+@code {
+    [Parameter] public int Id { get; set; }
+    private Dish dish = new Dish();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        dish = await http.GetJsonAsync<Dish>($"api/people/{Id}");
+    }
+
+    private async Task EditDish(){
+        await http.PutJsonAsync("api/menu", dish);
+        nav.NavigateTo("menu");
+    }
 }
