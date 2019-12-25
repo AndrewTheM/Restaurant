@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Blazor
 {
@@ -10,8 +9,8 @@ namespace Blazor
         public string Description { get; set; }
         public double Price { get; set; }
         public double PortionSize { get; set; }
-        public TimeSpan? CookingTime { get; set; }
-        public int? TypeId { get; set; }
-        public int? UnitId { get; set; }
+        public double? CookingTime { get; set; }
+        public string TypeId { get; set; }
+        public string UnitId { get; set; }
     }
 }

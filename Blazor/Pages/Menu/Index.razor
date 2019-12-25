@@ -24,6 +24,7 @@
                 <p>@item.Description</p>
                 <p>@item.Rating stars</p>
                 <p>@item.Portion @item.Unit</p>
+                <p>Time to cook: @(item.CookingTime ?? "None")</p>
                 <p class="card-price">$@item.Price</p>
                 <a class="card-order" href="/menu/@item.Id">Order</a>
             </div>

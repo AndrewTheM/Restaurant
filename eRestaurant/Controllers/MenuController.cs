@@ -38,17 +38,17 @@ namespace eRestaurant.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Dish dish)
+        public async Task<IActionResult> Create([FromBody] DishRequest dishReq)
         {
-            await _menuService.CreateDish(dish);
-            return RedirectToAction("GetMenu");
+            await _menuService.CreateDish(dishReq);
+            return NoContent();
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] Dish dish)
+        public async Task<IActionResult> Update([FromBody] DishRequest dishReq)
         {
-            await _menuService.UpdateDish(dish);
-            return RedirectToAction("GetMenu");
+            await _menuService.UpdateDish(dishReq);
+            return NoContent();
         }
 
         [HttpDelete("{id}")]

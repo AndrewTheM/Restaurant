@@ -19,9 +19,9 @@
 
     private async Task DeleteItem()
     {
-        //bool confirmed = await js.InvokeAsync<bool>("Confirm", "Confirm", "Are you sure to delete this item?", "question");
-        //if (confirmed)
-        await http.DeleteAsync($"/api/menu/{Id}");
+        bool confirmed = await js.InvokeAsync<bool>("CustomConfirm", "Confirm", "Are you sure to delete this item?", "question");
+        if (confirmed)
+            await http.DeleteAsync($"/api/menu/{Id}");
         nav.NavigateTo("menu");
     }
 }

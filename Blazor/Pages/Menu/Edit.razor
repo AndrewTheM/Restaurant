@@ -4,7 +4,7 @@
 
 <h1>Edit Menu Item</h1>
 
-<MenuForm Dish="dish" OnSubmit="EditDish" />
+<MenuForm Dish="@dish" OnSubmit="@EditDish" />
 
 @code {
     [Parameter] public int Id { get; set; }
@@ -12,7 +12,7 @@
 
     protected async override Task OnParametersSetAsync()
     {
-        dish = await http.GetJsonAsync<Dish>($"api/people/{Id}");
+        dish = await http.GetJsonAsync<Dish>($"api/menu/{Id}");
     }
 
     private async Task EditDish(){

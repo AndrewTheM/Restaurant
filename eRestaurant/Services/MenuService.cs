@@ -51,14 +51,16 @@ namespace eRestaurant.Services
             return menu.ToPagedList(pars);
         }
 
-        public async Task CreateDish(Dish dish)
+        public async Task CreateDish(DishRequest dishReq)
         {
+            var dish = _mapper.Map<Dish>(dishReq);
             _repo.Add(dish);
             await _uow.SaveChangesAsync();
         }
 
-        public async Task UpdateDish(Dish dish)
+        public async Task UpdateDish(DishRequest dishReq)
         {
+            var dish = _mapper.Map<Dish>(dishReq);
             _uow.ModifyState(dish);
             await _uow.SaveChangesAsync();
         }

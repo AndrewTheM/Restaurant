@@ -26,6 +26,13 @@ namespace eRestaurant.Mapping
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Name));
             CreateMap<DishImage, MenuItem>()
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(src => Convert.ToBase64String(src.Image)));
+
+            // DishRequest
+
+            CreateMap<DishRequest, Dish>()
+                .ForMember(dest => dest.CookingTime, opt => opt.MapFrom(src => (src.CookingTime == null) ? (TimeSpan?)null : TimeSpan.FromMinutes(src.CookingTime.Value)))
+                .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => int.Parse(src.TypeId)))
+                .ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => int.Parse(src.UnitId)));
         }
     }
 }
