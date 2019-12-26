@@ -11,7 +11,7 @@
 
     private async Task CreateDish()
     {
-        await http.PostJsonAsync("api/menu", dish);
-        nav.NavigateTo("menu");
+        var response = await http.PostJsonAsync<Dish>("api/menu", dish);
+        nav.NavigateTo($"menu/{response.Id}");
     }
 }

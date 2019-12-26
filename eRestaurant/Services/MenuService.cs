@@ -34,9 +34,9 @@ namespace eRestaurant.Services
             var type = _repo.GetType(id);
             var image = _repo.GetFirstImage(id);
 
-            var response = _mapper.Map<MenuItem>(dish, unit, type, image);
-            response.Rating = _repo.CalculateAvgRating(id);
-            return response;
+            var menuItem = _mapper.Map<MenuItem>(dish, unit, type, image);
+            menuItem.Rating = _repo.CalculateAvgRating(id);
+            return menuItem;
         }
 
         public PagedList<MenuItem> GetMenu(PagingParameters pars)
@@ -51,11 +51,21 @@ namespace eRestaurant.Services
             return menu.ToPagedList(pars);
         }
 
-        public async Task CreateDish(DishRequest dishReq)
+        public DishRequest GetDish(int id)
+        {
+            var dish = _repo.Get(id);
+            var dishDto = _mapper.Map<DishRequest>(dish);
+            return dishDto;
+        }
+
+        public async Task<int> CreateDish(DishRequest dishReq)
         {
             var dish = _mapper.Map<Dish>(dishReq);
             _repo.Add(dish);
             await _uow.SaveChangesAsync();
+
+            int id = _repo.GetAll().Last().Id;
+            return id;
         }
 
         public async Task UpdateDish(DishRequest dishReq)

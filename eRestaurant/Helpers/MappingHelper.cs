@@ -19,9 +19,11 @@ namespace eRestaurant.Mapping
                 .ForMember(dest => dest.Portion, opt => opt.MapFrom(src => src.PortionSize))
                 .ForMember(dest => dest.CookingTime, opt => opt.MapFrom(src => src.CookingTime.ToString()));
             CreateMap<UnitOfMeasurement, MenuItem>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Name, opt => opt.Ignore())
                 .ForMember(dest => dest.Unit, opt => opt.MapFrom(src => src.Name));
             CreateMap<DishType, MenuItem>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Name, opt => opt.Ignore())
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Name));
             CreateMap<DishImage, MenuItem>()
@@ -30,9 +32,13 @@ namespace eRestaurant.Mapping
             // DishRequest
 
             CreateMap<DishRequest, Dish>()
-                .ForMember(dest => dest.CookingTime, opt => opt.MapFrom(src => (src.CookingTime == null) ? (TimeSpan?)null : TimeSpan.FromMinutes(src.CookingTime.Value)))
+                .ForMember(dest => dest.CookingTime, opt => opt.MapFrom(src => (!src.CookingTime.HasValue) ? TimeSpan.FromMinutes(src.CookingTime.Value) : (TimeSpan?)null))
                 .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => int.Parse(src.TypeId)))
                 .ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => int.Parse(src.UnitId)));
+            CreateMap<Dish, DishRequest>()
+                .ForMember(dest => dest.CookingTime, opt => opt.MapFrom(src => (src.CookingTime.HasValue) ? src.CookingTime.Value.TotalMinutes : (double?)null))
+                .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => src.TypeId.ToString()))
+                .ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => src.UnitId.ToString()));
         }
     }
 }

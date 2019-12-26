@@ -4,16 +4,16 @@
     <DataAnnotationsValidator />
     <div class="form-group">
         <div>
-            <label>Name:</label>
+            <label for="name">Name:</label>
             <div>
-                <InputText @bind-Value="@Dish.Name" />
+                <InputText id="name" @bind-Value="@Dish.Name" />
                 <ValidationMessage For="@(() => Dish.Name)" />
             </div>
         </div>
         <div>
-            <label>Type:</label>
+            <label for="type">Type:</label>
             <div>
-                <InputSelect @bind-Value="@Dish.TypeId">
+                <InputSelect id="type" @bind-Value="@Dish.TypeId">
                     @foreach (var type in Types)
                     {
                         <option value="@type.Id">@type.Name</option>
@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <button type="submit" class="btn btn-success">Save</button>
+    <button type="submit" class="btn btn-info">Save</button>
 
 </EditForm>
 

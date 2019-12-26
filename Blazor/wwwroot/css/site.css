@@ -183,35 +183,35 @@ app {
 }
 
 .card {
-    border: 2px solid black;
-    background: lightyellow;
-    width: 600px;
-    height: 300px;
+    border: 2px solid #dee2e6;
+    width: 700px;
+    height: 350px;
     display: flex;
     flex-direction: row;
-    border-radius: 0 50px 50px 0;
+    border-radius: 50px;
     margin: 0 50px 50px 0;
     z-index: 0;
     font-family: Verdana;
 }
 
 .card-img {
-    background: lightblue;
     width: 50%;
-    border-right: 2px solid black;
+    border-right: 2px solid #dee2e6;
+    border-radius: 50px 0 0 50px;
 }
 
 .card-text {
     position: relative;
     width: 50%;
+    background: #fffbdd;
+    border-radius: 0 50px 50px 0;
+    color: #444444;
 }
 
-    .card-text p {
-        text-align: center;
-        text-decoration: none;
-        margin: 10px;
-        font-size: 14pt;
-    }
+.card-line {
+    text-align: center;
+    font-size: 19px;
+}
 
 .card-info {
     display: flex;
@@ -221,31 +221,27 @@ app {
 
 .card-title {
     font-weight: bold;
-    font-size: 18pt;
+    font-size: 24px;
+    word-wrap: break-word;
+    width: 80%;
+    margin: 20px 0;
+    text-align: center;
 }
 
 .card-order {
     position: absolute;
     bottom: 0;
-    right: 5%;
-    padding: 5px 10px;
-    margin: 6px 10px;
-    color: darkblue;
-    font-weight: bold;
-    font-size: 14pt;
-    border-radius: 30px;
+    right: 0;
+    margin: 20px 30px;
 }
-
-    .card-order:hover {
-        background: darkblue;
-        color: white;
-        text-decoration: none;
-    }
 
 .card-price {
     position: absolute;
     bottom: 0;
-    left: 10%;
+    left: 0;
+    margin: 20px 30px;
+    color: #444444;
+    font-size: 19px;
 }
 
 .card-wrapper {
@@ -256,6 +252,16 @@ app {
 
 .page-link {
     font-weight: bold;
+    color: #17a2b8;
+}
+
+    .page-link:hover {
+        color: #17a2b8;
+    }
+
+.page-item.active .page-link {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
 }
 
 .no-select {

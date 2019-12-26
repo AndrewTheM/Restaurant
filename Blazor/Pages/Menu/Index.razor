@@ -3,40 +3,63 @@
 
 <h1>Menu</h1>
 
-<AuthorizeView>
-    <Authorized>
-        <div class="form-group">
-            <a class="btn btn-success" href="menu/create">New Menu Item</a>
-        </div>
-    </Authorized>
-</AuthorizeView>
-
-<Pagination CurrentPage="currentPage" TotalPages="totalPages" SelectedPage="SelectedPage" />
-
-<div class="card-wrapper">
-@foreach (var item in Menu)
+@if (menu != null)
 {
-    <div class="card">
-        <img class="card-img no-select" src="data:image/jpeg;base64, @item.Image" alt="The image of this tasty dish is missing">
-        <div class="card-text">
-            <div class="card-info">
-                <p class="card-title">@item.Type @item.Name</p>
-                <p>@item.Description</p>
-                <p>@item.Rating stars</p>
-                <p>@item.Portion @item.Unit</p>
-                <p>Time to cook: @(item.CookingTime ?? "None")</p>
-                <p class="card-price">$@item.Price</p>
-                <a class="card-order" href="/menu/@item.Id">Order</a>
+    @*<AuthorizeView>
+        <Authorized>*@
+    <div class="form-group">
+        <a class="btn btn-info" href="menu/create">New Menu Item</a>
+    </div>
+    @*</Authorized>
+        </AuthorizeView>*@
+
+    <Pagination CurrentPage="currentPage" TotalPages="totalPages" SelectedPage="SelectedPage" />
+
+    <div class="card-wrapper">
+        @foreach (var item in menu)
+        {
+        <div class="card">
+            @if (!string.IsNullOrEmpty(item.Image))
+            {
+                <img class="card-img no-select" src="data:image/jpeg;base64, @item.Image")">
+            }
+            else
+            {
+                <img class="card-img no-select" src="https://cdn.shopify.com/s/files/1/2484/1814/products/Cutlery_1-min_537a91e3-9385-4a0c-9d57-3a098ac150d3_1024x1024@2x.png?v=1514808515">
+            }
+            <div class="card-text">
+                <div class="card-info">
+                    <p class="card-title">@item.Type @item.Name</p>
+                    <p class="card-line">@item.Rating stars</p>
+                    @if (item.Unit != null)
+                    {
+                        <p class="card-line">@item.Portion @item.Unit</p>
+                    }
+                    @if (!string.IsNullOrEmpty(item.CookingTime))
+                    {
+                        <p class="card-line">@item.CookingTime to cook</p>
+                    }
+                    else if (item.CookingTime == "00:00:00")
+                    {
+                        <p class="card-line">Immediate service</p>
+                    }
+                    <p class="btn card-price">@(item.Price == "0,00" ? "Free" : $"${item.Price}")</p>
+                    <a class="btn btn-info card-order" href="/menu/@item.Id">Order</a>
+                </div>
             </div>
         </div>
+        }
     </div>
 }
-</div>
+else
+{
+    <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" />
+}
 
 @code {
     private int currentPage = 1;
     private int totalPages;
-    List<MenuItem> Menu { get; set; } = new List<MenuItem>();
+    private List<MenuItem> menu;
 
     protected override async Task OnInitializedAsync() => await LoadMenu();
 
@@ -53,7 +76,7 @@
         {
             totalPages = int.Parse(response.Headers.GetValues("totalPages").FirstOrDefault());
             var json = await response.Content.ReadAsStringAsync();
-            Menu = JsonSerializer.Deserialize<List<MenuItem>>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            menu = JsonSerializer.Deserialize<List<MenuItem>>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
     }
 }

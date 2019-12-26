@@ -12,7 +12,7 @@
 
     protected async override Task OnParametersSetAsync()
     {
-        dish = await http.GetJsonAsync<Dish>($"api/menu/{Id}");
+        dish = await http.GetJsonAsync<Dish>($"api/menu/dish/{Id}");
     }
 
     private async Task EditDish(){

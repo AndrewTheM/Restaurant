@@ -9,7 +9,8 @@ namespace eRestaurant.Services
     {
         PagedList<MenuItem> GetMenu(PagingParameters pars);
         MenuItem GetMenuItem(int id);
-        Task CreateDish(DishRequest dish);
+        DishRequest GetDish(int id);
+        Task<int> CreateDish(DishRequest dish);
         Task UpdateDish(DishRequest dish);
         Task DeleteDish(int id);
     }
