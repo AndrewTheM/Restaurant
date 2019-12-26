@@ -32,7 +32,7 @@ namespace eRestaurant.Mapping
             // DishRequest
 
             CreateMap<DishRequest, Dish>()
-                .ForMember(dest => dest.CookingTime, opt => opt.MapFrom(src => (!src.CookingTime.HasValue) ? TimeSpan.FromMinutes(src.CookingTime.Value) : (TimeSpan?)null))
+                .ForMember(dest => dest.CookingTime, opt => opt.MapFrom(src => (src.CookingTime.HasValue) ? TimeSpan.FromMinutes(src.CookingTime.Value) : (TimeSpan?)null))
                 .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => int.Parse(src.TypeId)))
                 .ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => int.Parse(src.UnitId)));
             CreateMap<Dish, DishRequest>()

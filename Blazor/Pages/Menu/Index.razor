@@ -21,7 +21,7 @@
         <div class="card">
             @if (!string.IsNullOrEmpty(item.Image))
             {
-                <img class="card-img no-select" src="data:image/jpeg;base64, @item.Image")">
+                <img class="card-img no-select" src="data:image/jpeg;base64, @item.Image">
             }
             else
             {
@@ -69,7 +69,7 @@ else
         await LoadMenu(page);
     }
 
-    private async Task LoadMenu(int page = 1, int size = 2)
+    private async Task LoadMenu(int page = 1, int size = 10)
     {
         var response = await http.GetAsync($"api/menu?pageNumber={page}&pageSize={size}");
         if (response.IsSuccessStatusCode)
