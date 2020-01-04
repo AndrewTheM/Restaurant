@@ -39,16 +39,21 @@ namespace eRestaurant.Services
             return menuItem;
         }
 
-        public PagedList<MenuItem> GetMenu(PagingParameters pars)
+        public PagedList<MenuItem> GetMenu(PagingParameters paging, FilteringParameters filter)
         {
             var menu = new List<MenuItem>();
-            var dishes = _repo.GetAll().ToList();
+            List<Dish> dishes;
+            if (string.IsNullOrWhiteSpace(filter.Name))
+                dishes = _repo.GetAll().ToList();
+            else
+                dishes = _repo.GetWhereNameContains(filter.Name).ToList();
+
             foreach (var dish in dishes)
             {
                 var item = GetMenuItem(dish.Id);
                 menu.Add(item);
             }
-            return menu.ToPagedList(pars);
+            return menu.ToPagedList(paging);
         }
 
         public DishRequest GetDish(int id)

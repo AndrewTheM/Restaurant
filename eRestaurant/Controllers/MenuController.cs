@@ -21,9 +21,9 @@ namespace eRestaurant.Controllers
         public MenuController(IMenuService menuService) => _menuService = menuService;
 
         [HttpGet]
-        public IActionResult GetMenu([FromQuery] PagingParameters pars)
+        public IActionResult GetMenu([FromQuery] PagingParameters paging, [FromQuery] FilteringParameters filter)
         {
-            var menu = _menuService.GetMenu(pars);
+            var menu = _menuService.GetMenu(paging, filter);
             Response.Headers.Add("totalPages", JsonConvert.SerializeObject(menu.TotalPages));
             return Ok(menu);
         }

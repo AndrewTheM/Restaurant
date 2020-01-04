@@ -7,7 +7,7 @@ namespace eRestaurant.Services
 {
     public interface IMenuService
     {
-        PagedList<MenuItem> GetMenu(PagingParameters pars);
+        PagedList<MenuItem> GetMenu(PagingParameters paging, FilteringParameters filter);
         MenuItem GetMenuItem(int id);
         DishRequest GetDish(int id);
         Task<int> CreateDish(DishRequest dish);

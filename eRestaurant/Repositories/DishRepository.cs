@@ -18,6 +18,8 @@ namespace eRestaurant.Repositories
 
         public IEnumerable<Dish> GetByTypeName(string typeName) => GetAll().Where(d => d.Type.Name == typeName);
 
+        public IEnumerable<Dish> GetWhereNameContains(string name) => GetAll().Where(d => d.Name.Contains(name));
+
         public DishImage GetFirstImage(int id) => _context.Images.Where(di => di.DishId == id).FirstOrDefault();
 
         public IEnumerable<Dish> GetHighestRatedOfType(string typeName, int count) => GetByTypeName(typeName).OrderByDescending(d => d.Reviews.Average(r => r.Rating)).Take(count);
@@ -37,5 +39,6 @@ namespace eRestaurant.Repositories
             var unitId = Get(id).UnitId;
             return _context.Units.Where(u => u.Id == unitId).FirstOrDefault();
         }
+
     }
 }
