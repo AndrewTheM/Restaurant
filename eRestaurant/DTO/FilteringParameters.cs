@@ -8,5 +8,6 @@ namespace eRestaurant.DTO
     public class FilteringParameters
     {
         public string Name { get; set; }
+        public string Category { get; set; }
     }
 }

@@ -11,10 +11,10 @@
             </div>
         </div>
         <div>
-            <label for="type">Type:</label>
+            <label for="type">Category:</label>
             <div>
                 <InputSelect id="type" @bind-Value="@Dish.TypeId">
-                    @foreach (var type in Types)
+                    @foreach (var type in types)
                     {
                         <option value="@type.Id">@type.Name</option>
                     }
@@ -53,7 +53,7 @@
             <label>Unit:</label>
             <div>
                 <InputSelect @bind-Value="@Dish.UnitId">
-                    @foreach (var unit in Units)
+                    @foreach (var unit in units)
                     {
                         <option value="@unit.Id">@unit.Name</option>
                     }
@@ -71,8 +71,8 @@
     [Parameter] public Dish Dish { get; set; }
     [Parameter] public EventCallback OnSubmit { get; set; }
 
-    List<DishType> Types { get; set; } = new List<DishType>();
-    List<UnitOfMeasurement> Units { get; set; } = new List<UnitOfMeasurement>();
+    private List<DishType> types = new List<DishType>();
+    private List<UnitOfMeasurement> units = new List<UnitOfMeasurement>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -82,34 +82,21 @@
 
     private async Task LoadTypes()
     {
-        //var response = await http.GetAsync("api/config/types");
-        //if (response.IsSuccessStatusCode)
-        //{
-        //    var json = await response.Content.ReadAsStringAsync();
-        //    Types = JsonSerializer.Deserialize<List<DishType>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        //}
-        //else
+        var response = await http.GetAsync("api/org/types");
+        if (response.IsSuccessStatusCode)
         {
-            Types = new List<DishType>();
-            Types.Add(new DishType { Id = "1", Name = "Salad" });
-            Types.Add(new DishType { Id = "2", Name = "Pizza" });
-            Types.Add(new DishType { Id = "3", Name = "Drink" });
+            var json = await response.Content.ReadAsStringAsync();
+            types = JsonSerializer.Deserialize<List<DishType>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
     }
 
     private async Task LoadUnits()
     {
-        //var response = await http.GetAsync("api/config/units");
-        //if (response.IsSuccessStatusCode)
-        //{
-        //    var json = await response.Content.ReadAsStringAsync();
-        //    Units = JsonSerializer.Deserialize<List<UnitOfMeasurement>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        //}
-        //else
+        var response = await http.GetAsync("api/org/units");
+        if (response.IsSuccessStatusCode)
         {
-            Units = new List<UnitOfMeasurement>();
-            Units.Add(new UnitOfMeasurement { Id = "1", Name = "g" });
-            Units.Add(new UnitOfMeasurement { Id = "2", Name = "ml" });
+            var json = await response.Content.ReadAsStringAsync();
+            units = JsonSerializer.Deserialize<List<UnitOfMeasurement>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
     }
 }

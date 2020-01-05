@@ -1,4 +1,5 @@
 ﻿using eRestaurant.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,35 +11,73 @@ namespace eRestaurant.Repositories
 
         public double CalculateAvgRating(int id)
         {
-            var reviews = _context.Reviews?.Where(r => r.DishId == id);
+            var reviews =
+                GetAll()
+                .Include(d => d.Reviews)
+                .AsNoTracking()
+                .SingleOrDefault(d => d.Id == id)
+                .Reviews;
+
             if (reviews.Any())
                 return reviews.Average(r => r.Rating);
             return 0;
         }
 
-        public IEnumerable<Dish> GetByTypeName(string typeName) => GetAll().Where(d => d.Type.Name == typeName);
+        public IEnumerable<Dish> GetByTypeName(string typeName) =>
+            GetAll()
+            .Include(d => d.Type)
+            .Where(d => d.Type.Name == typeName)
+            .AsNoTracking();
 
-        public IEnumerable<Dish> GetWhereNameContains(string name) => GetAll().Where(d => d.Name.Contains(name));
+        public IEnumerable<Dish> GetWhereNameContains(string name) =>
+            GetAll()
+            .Where(d => d.Name.Contains(name))
+            .AsNoTracking();
 
-        public DishImage GetFirstImage(int id) => _context.Images.Where(di => di.DishId == id).FirstOrDefault();
+        public IEnumerable<Dish> GetWhereNameContainsOfType(string name, string typeName) =>
+            GetAll()
+            .Include(d => d.Type)
+            .Where(d => d.Type.Name == typeName && d.Name.Contains(name))
+            .AsNoTracking();
 
-        public IEnumerable<Dish> GetHighestRatedOfType(string typeName, int count) => GetByTypeName(typeName).OrderByDescending(d => d.Reviews.Average(r => r.Rating)).Take(count);
+        public DishImage GetFirstImage(int id) =>
+            GetAll()
+            .Include(d => d.Images)
+            .AsNoTracking()
+            .SingleOrDefault(d => d.Id == id)
+            .Images
+            .FirstOrDefault();
 
-        public IEnumerable<byte[]> GetImageCodes(int id) => _context.Images.Where(di => di.DishId == id).Select(di => di.Image);
+        public IEnumerable<Dish> GetHighestRatedOfType(string typeName, int count) =>
+            GetByTypeName(typeName)
+            .OrderByDescending(d => d.Reviews.Average(r => r.Rating))
+            .Take(count);
 
-        public IEnumerable<Dish> GetMostPopularOfType(string typeName, int count) => GetByTypeName(typeName).OrderByDescending(d => d.OrderDishes.Count()).Take(count);
+        public IEnumerable<byte[]> GetImageCodes(int id) =>
+            GetAll()
+            .Include(d => d.Images)
+            .AsNoTracking()
+            .SingleOrDefault(d => d.Id == id)
+            .Images
+            .Select(di => di.Image);
 
-        public DishType GetType(int id)
-        {
-            var typeId = Get(id).TypeId;
-            return _context.DishTypes.Where(dt => dt.Id == typeId).FirstOrDefault();
-        }
+        public IEnumerable<Dish> GetMostPopularOfType(string typeName, int count) =>
+            GetByTypeName(typeName)
+            .OrderByDescending(d => d.OrderDishes.Count())
+            .Take(count);
 
-        public UnitOfMeasurement GetUnit(int id)
-        {
-            var unitId = Get(id).UnitId;
-            return _context.Units.Where(u => u.Id == unitId).FirstOrDefault();
-        }
+        public DishType GetTypeOfDish(int id) =>
+            GetAll()
+            .Include(d => d.Type)
+            .AsNoTracking()
+            .SingleOrDefault(d => d.Id == id)
+            .Type;
 
+        public UnitOfMeasurement GetUnitOfDish(int id) =>
+            GetAll()
+            .Include(d => d.PortionUnit)
+            .AsNoTracking()
+            .SingleOrDefault(d => d.Id == id)
+            .PortionUnit;
     }
 }

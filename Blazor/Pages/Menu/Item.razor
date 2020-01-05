@@ -32,9 +32,13 @@ else
 
     private async Task DeleteItem()
     {
-        bool confirmed = await js.InvokeAsync<bool>("confirm", "Confirm", "Are you sure to delete this item?", "question");
+        bool confirmed = await js.InvokeAsync<bool>("confirm", "Are you sure to delete this item?");
         if (confirmed)
+        {
             await http.DeleteAsync($"/api/menu/{Id}");
-        nav.NavigateTo("menu");
+            nav.NavigateTo("menu");
+        }
+        else
+            nav.NavigateTo($"menu/{Id}");
     }
 }

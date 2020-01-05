@@ -8,10 +8,11 @@ namespace eRestaurant.Repositories
     {
         IEnumerable<Dish> GetByTypeName(string typeName);
         IEnumerable<Dish> GetWhereNameContains(string name);
+        IEnumerable<Dish> GetWhereNameContainsOfType(string name, string typeName);
         IEnumerable<Dish> GetMostPopularOfType(string typeName, int count);
         IEnumerable<Dish> GetHighestRatedOfType(string typeName, int count);
-        DishType GetType(int id);
-        UnitOfMeasurement GetUnit(int id);
+        DishType GetTypeOfDish(int id);
+        UnitOfMeasurement GetUnitOfDish(int id);
         DishImage GetFirstImage(int id);
         IEnumerable<byte[]> GetImageCodes(int id);
         double CalculateAvgRating(int id);

@@ -1,20 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace eRestaurant.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        protected readonly ApplicationContext _context;
         private readonly DbSet<T> _set;
 
-        public Repository(ApplicationContext context)
-        {
-            _context = context;
-            _set = context.Set<T>();
-        }
+        public Repository(ApplicationContext context) => _set = context.Set<T>();
 
-        public IEnumerable<T> GetAll() => _set;
+        public IQueryable<T> GetAll() => _set;
 
         public T Get(int id) => _set.Find(id);
 

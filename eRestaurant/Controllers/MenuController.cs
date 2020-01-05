@@ -21,6 +21,7 @@ namespace eRestaurant.Controllers
         public MenuController(IMenuService menuService) => _menuService = menuService;
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult GetMenu([FromQuery] PagingParameters paging, [FromQuery] FilteringParameters filter)
         {
             var menu = _menuService.GetMenu(paging, filter);
@@ -29,6 +30,7 @@ namespace eRestaurant.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public IActionResult GetMenuItem(int id)
         {
             var item = _menuService.GetMenuItem(id);
@@ -38,6 +40,7 @@ namespace eRestaurant.Controllers
         }
 
         [HttpGet("dish/{id}")]
+        [AllowAnonymous]
         public IActionResult GetDish(int id)
         {
             var dish = _menuService.GetDish(id);

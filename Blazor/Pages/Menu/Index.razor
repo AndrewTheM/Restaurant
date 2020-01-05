@@ -14,12 +14,23 @@
         </AuthorizeView>*@
 
     <div class="form-inline">
+        <select class="form-control mb-2 mr-sm-2"
+                @onchange="OnCategorySelected">
+            <option value=" ">All categories</option>
+            @foreach (var category in categories)
+            {
+                <option value="@category.Name">@(category.Name)s</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-inline">
         <label class="sr-only" for="filter-name">Filter</label>
         <input type="text" class="form-control mb-2 mr-sm-2"
                @bind="nameFilter"
                placeholder="Filter by name" />
         <button type="button" class="btn btn-primary mr-sm-2 mb-2"
-                @onclick="async () => await SelectedPage(1)">
+                @onclick="Filter">
             Filter
         </button>
         <button type="button" class="btn btn-danger mb-2"
@@ -27,15 +38,6 @@
             Clear
         </button>
     </div>
-
-    if (menu.Any())
-    {
-        <Pagination CurrentPage="currentPage" TotalPages="totalPages" SelectedPage="SelectedPage" />
-    }
-    else
-    {
-        <p>No items found.</p>
-    }
 
     <div class="card-wrapper">
         @foreach (var item in menu)
@@ -72,6 +74,15 @@
             </div>
         }
     </div>
+
+    if (totalPages > 1)
+    {
+        <Pagination CurrentPage="currentPage" TotalPages="totalPages" SelectedPage="SelectedPage" />
+    }
+    else if (!menu.Any())
+    {
+        <p>No items found.</p>
+    }
 }
 else
 {
@@ -83,9 +94,15 @@ else
     private int pageSize = 10;
     private int totalPages;
     private string nameFilter;
+    private string categoryFilter;
     private List<MenuItem> menu;
+    private List<DishType> categories = new List<DishType>();
 
-    protected override async Task OnInitializedAsync() => await LoadMenu();
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadMenu();
+        await LoadCategories();
+    }
 
     private async Task SelectedPage(int pageNbr)
     {
@@ -93,20 +110,42 @@ else
         await LoadMenu(pageNbr);
     }
 
+    private async Task OnCategorySelected(ChangeEventArgs e)
+    {
+        categoryFilter = e.Value.ToString();
+        await SelectedPage(1);
+    }
+
+    private async Task Filter()
+    {
+        currentPage = 1;
+        await LoadMenu();
+    }
+
     private async Task Clear()
     {
         nameFilter = string.Empty;
-        await SelectedPage(1);
+        await Filter();
     }
 
     private async Task LoadMenu(int page = 1)
     {
-        var response = await http.GetAsync($"api/menu?pageNumber={page}&pageSize={pageSize}&name={nameFilter}");
+        var response = await http.GetAsync($"api/menu?pageNumber={page}&pageSize={pageSize}&name={nameFilter}&category={categoryFilter}");
         if (response.IsSuccessStatusCode)
         {
             totalPages = int.Parse(response.Headers.GetValues("totalPages").FirstOrDefault());
             var json = await response.Content.ReadAsStringAsync();
             menu = JsonSerializer.Deserialize<List<MenuItem>>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        }
+    }
+
+    private async Task LoadCategories()
+    {
+        var response = await http.GetAsync($"api/org/types");
+        if (response.IsSuccessStatusCode)
+        {
+            var json = await response.Content.ReadAsStringAsync();
+            categories = JsonSerializer.Deserialize<List<DishType>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
     }
 }

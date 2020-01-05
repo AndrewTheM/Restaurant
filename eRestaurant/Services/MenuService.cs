@@ -30,8 +30,8 @@ namespace eRestaurant.Services
             if (dish == null)
                 return null;
 
-            var unit = _repo.GetUnit(id);
-            var type = _repo.GetType(id);
+            var unit = _repo.GetUnitOfDish(id);
+            var type = _repo.GetTypeOfDish(id);
             var image = _repo.GetFirstImage(id);
 
             var menuItem = _mapper.Map<MenuItem>(dish, unit, type, image);
@@ -41,13 +41,20 @@ namespace eRestaurant.Services
 
         public PagedList<MenuItem> GetMenu(PagingParameters paging, FilteringParameters filter)
         {
-            var menu = new List<MenuItem>();
             List<Dish> dishes;
-            if (string.IsNullOrWhiteSpace(filter.Name))
-                dishes = _repo.GetAll().ToList();
-            else
-                dishes = _repo.GetWhereNameContains(filter.Name).ToList();
 
+            if (string.IsNullOrWhiteSpace(filter.Name))
+                if (string.IsNullOrWhiteSpace(filter.Category))
+                    dishes = _repo.GetAll().ToList();
+                else
+                    dishes = _repo.GetByTypeName(filter.Category).ToList();
+            else
+                if (string.IsNullOrWhiteSpace(filter.Category))
+                    dishes = _repo.GetWhereNameContains(filter.Name).ToList();
+                else
+                    dishes = _repo.GetWhereNameContainsOfType(filter.Name, filter.Category).ToList();
+
+            var menu = new List<MenuItem>();
             foreach (var dish in dishes)
             {
                 var item = GetMenuItem(dish.Id);
@@ -69,7 +76,7 @@ namespace eRestaurant.Services
             _repo.Add(dish);
             await _uow.SaveChangesAsync();
 
-            int id = _repo.GetAll().Last().Id;
+            int id = _repo.GetAll().ToList().Last().Id;
             return id;
         }
 
