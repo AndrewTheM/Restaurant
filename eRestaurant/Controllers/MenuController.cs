@@ -1,15 +1,16 @@
 ﻿using AutoMapper;
-using eRestaurant.DTO;
-using eRestaurant.Entities;
-using eRestaurant.Helpers;
-using eRestaurant.Services;
+using eRestaurant.API.DTO;
+using eRestaurant.API.Entities;
+using eRestaurant.API.Helpers;
+using eRestaurant.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using SharedDto = eRestaurant.Shared.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 
-namespace eRestaurant.Controllers
+namespace eRestaurant.API.Controllers
 {
     [ApiController]
     [Route("api/menu")]
@@ -50,14 +51,14 @@ namespace eRestaurant.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] DishRequest dishDto)
+        public async Task<IActionResult> Create([FromBody] SharedDto.Dish dishDto)
         {
             int id = await _menuService.CreateDish(dishDto);
-            return Ok(new DishRequest { Id = id });
+            return Ok(new SharedDto.Dish { Id = id });
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] DishRequest dishDto)
+        public async Task<IActionResult> Update([FromBody] SharedDto.Dish dishDto)
         {
             await _menuService.UpdateDish(dishDto);
             return NoContent();

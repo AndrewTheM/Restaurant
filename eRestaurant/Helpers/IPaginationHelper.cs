@@ -1,4 +1,4 @@
-﻿namespace eRestaurant.Helpers
+﻿namespace eRestaurant.API.Helpers
 {
     public interface IPaginationHelper
     {

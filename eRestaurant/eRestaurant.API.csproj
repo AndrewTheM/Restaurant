@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>eRestaurant.API</AssemblyName>
+    <RootNamespace>eRestaurant.API</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Blazor\Blazor.csproj" />
+    <ProjectReference Include="..\Blazor\eRestaurant.Blazor.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,8 @@
-﻿using eRestaurant.Entities;
+﻿using eRestaurant.API.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace eRestaurant.Repositories
+namespace eRestaurant.API.Repositories
 {
     public interface IDishRepository : IRepository<Dish>
     {

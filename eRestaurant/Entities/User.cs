@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace eRestaurant.Entities
+namespace eRestaurant.API.Entities
 {
     public class User : IdentityUser
     {

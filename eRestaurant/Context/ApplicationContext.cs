@@ -1,11 +1,11 @@
-﻿using eRestaurant.Entities;
-using eRestaurant.Extensions;
+﻿using eRestaurant.API.Entities;
+using eRestaurant.API.Extensions;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Drawing;
 
-namespace eRestaurant
+namespace eRestaurant.API
 {
     public class ApplicationContext : IdentityDbContext<User>
     {

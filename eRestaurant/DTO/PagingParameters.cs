@@ -1,4 +1,4 @@
-﻿namespace eRestaurant.DTO
+﻿namespace eRestaurant.API.DTO
 {
     public class PagingParameters
     {

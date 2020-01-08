@@ -1,4 +1,4 @@
-﻿namespace eRestaurant.DTO
+﻿namespace eRestaurant.Shared.DTO
 {
     public class MenuItem
     {

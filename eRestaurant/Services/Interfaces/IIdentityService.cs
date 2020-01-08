@@ -1,7 +1,7 @@
-﻿using eRestaurant.DTO;
+﻿using eRestaurant.API.DTO;
 using System.Threading.Tasks;
 
-namespace eRestaurant.Services
+namespace eRestaurant.API.Services
 {
     public interface IIdentityService
     {

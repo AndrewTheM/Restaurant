@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace eRestaurant.Entities
+namespace eRestaurant.API.Entities
 {
     public class Order
     {

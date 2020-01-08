@@ -1,9 +1,9 @@
-﻿using eRestaurant.DTO;
+﻿using eRestaurant.API.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace eRestaurant.Helpers
+namespace eRestaurant.API.Helpers
 {
     public class PagedList<T> : List<T>, IPaginationHelper
     {

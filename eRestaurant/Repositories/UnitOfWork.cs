@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using eRestaurant.Entities;
+using eRestaurant.API.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace eRestaurant.Repositories
+namespace eRestaurant.API.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {

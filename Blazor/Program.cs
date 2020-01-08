@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Blazor.Hosting;
 
-namespace Blazor
+namespace eRestaurant.Blazor
 {
     public class Program
     {

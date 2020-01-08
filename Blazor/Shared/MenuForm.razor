@@ -3,14 +3,14 @@
 <EditForm Model="@Dish" OnValidSubmit="@OnSubmit">
     <DataAnnotationsValidator />
     <div class="form-group">
-        <div>
+        <div class="form-group">
             <label for="name">Name:</label>
             <div>
                 <InputText id="name" @bind-Value="@Dish.Name" />
                 <ValidationMessage For="@(() => Dish.Name)" />
             </div>
         </div>
-        <div>
+        <div class="form-group">
             <label for="type">Category:</label>
             <div>
                 <InputSelect id="type" @bind-Value="@Dish.TypeId">
@@ -22,34 +22,34 @@
                 <ValidationMessage For="@(() => Dish.TypeId)" />
             </div>
         </div>
-        <div>
+        <div class="form-group">
             <label>Description:</label>
             <div>
                 <InputText @bind-Value="@Dish.Description" />
                 <ValidationMessage For="@(() => Dish.Description)" />
             </div>
         </div>
-        <div>
+        <div class="form-group">
             <label>Price:</label>
             <div>
                 <InputNumber @bind-Value="@Dish.Price" />
                 <ValidationMessage For="@(() => Dish.Price)" />
             </div>
         </div>
-        <div>
+        <div class="form-group">
             <label>Portion:</label>
             <div>
                 <InputNumber @bind-Value="@Dish.PortionSize" />
                 <ValidationMessage For="@(() => Dish.PortionSize)" />
             </div>
         </div>
-        <div>
+        <div class="form-group">
             <label>Estimated Cooking Time:</label>
             <div>
                 <InputNumber @bind-Value="@Dish.CookingTime" />
             </div>
         </div>
-        <div>
+        <div class="form-group">
             <label>Unit:</label>
             <div>
                 <InputSelect @bind-Value="@Dish.UnitId">
@@ -71,8 +71,8 @@
     [Parameter] public Dish Dish { get; set; }
     [Parameter] public EventCallback OnSubmit { get; set; }
 
-    private List<DishType> types = new List<DishType>();
-    private List<UnitOfMeasurement> units = new List<UnitOfMeasurement>();
+    private List<NamedEntity> types = new List<NamedEntity>();
+    private List<NamedEntity> units = new List<NamedEntity>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -86,7 +86,7 @@
         if (response.IsSuccessStatusCode)
         {
             var json = await response.Content.ReadAsStringAsync();
-            types = JsonSerializer.Deserialize<List<DishType>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            types = JsonSerializer.Deserialize<List<NamedEntity>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
     }
 
@@ -96,7 +96,7 @@
         if (response.IsSuccessStatusCode)
         {
             var json = await response.Content.ReadAsStringAsync();
-            units = JsonSerializer.Deserialize<List<UnitOfMeasurement>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            units = JsonSerializer.Deserialize<List<NamedEntity>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
     }
 }

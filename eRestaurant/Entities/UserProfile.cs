@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace eRestaurant.Entities
+namespace eRestaurant.API.Entities
 {
     public class UserProfile
     {

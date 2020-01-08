@@ -1,9 +1,9 @@
-﻿using eRestaurant.Entities;
+﻿using eRestaurant.API.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace eRestaurant.Repositories
+namespace eRestaurant.API.Repositories
 {
     public class DishRepository : Repository<Dish>, IDishRepository
     {

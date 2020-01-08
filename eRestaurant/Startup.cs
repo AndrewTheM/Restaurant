@@ -11,11 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using eRestaurant;
-using eRestaurant.Repositories;
-using eRestaurant.Entities;
+using eRestaurant.API.Repositories;
+using eRestaurant.API.Entities;
 using Microsoft.AspNetCore.Identity;
-using eRestaurant.Services;
+using eRestaurant.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -24,7 +23,7 @@ using System.Reflection;
 using System.IO;
 using AutoMapper;
 
-namespace eRestaurant
+namespace eRestaurant.API
 {
     public class Startup
     {

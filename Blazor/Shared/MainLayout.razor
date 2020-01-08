@@ -6,7 +6,16 @@
 
 <div class="main">
     <div class="top-row px-4">
-        <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+        @*<AuthorizeView>
+        <Authorized>
+        <span>Hello, @context.User.Identity.Name!</span>
+        <a href="Logout" class="nav-link btn btn-link">Log out</a>
+        </Authorized>
+        <NotAuthorized>*@
+        <a href="login" class="nav-link btn btn-link">Log in</a>
+        <a href="register" class="nav-link btn btn-link">Register</a>
+        @*</NotAuthorized>
+        </AuthorizeView>*@
     </div>
 
     <div class="content px-4">

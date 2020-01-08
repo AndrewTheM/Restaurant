@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace eRestaurant.DTO
+namespace eRestaurant.API.DTO
 {
     public class AuthResponse
     {

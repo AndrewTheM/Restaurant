@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace eRestaurant.Repositories
+namespace eRestaurant.API.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {

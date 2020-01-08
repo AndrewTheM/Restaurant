@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace eRestaurant.Repositories
+namespace eRestaurant.API.Repositories
 {
     public interface IRepository<T> where T : class
     {

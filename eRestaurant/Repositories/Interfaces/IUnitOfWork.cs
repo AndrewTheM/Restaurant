@@ -1,9 +1,9 @@
-﻿using eRestaurant.Entities;
+﻿using eRestaurant.API.Entities;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading.Tasks;
 
-namespace eRestaurant.Repositories
+namespace eRestaurant.API.Repositories
 {
     public interface IUnitOfWork : IDisposable
     {

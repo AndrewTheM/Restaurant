@@ -96,7 +96,7 @@ else
     private string nameFilter;
     private string categoryFilter;
     private List<MenuItem> menu;
-    private List<DishType> categories = new List<DishType>();
+    private List<NamedEntity> categories = new List<NamedEntity>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -145,7 +145,7 @@ else
         if (response.IsSuccessStatusCode)
         {
             var json = await response.Content.ReadAsStringAsync();
-            categories = JsonSerializer.Deserialize<List<DishType>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            categories = JsonSerializer.Deserialize<List<NamedEntity>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
     }
 }

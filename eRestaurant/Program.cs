@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace eRestaurant
+namespace eRestaurant.API
 {
     public class Program
     {

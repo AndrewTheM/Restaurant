@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
-using eRestaurant.DTO;
-using eRestaurant.Helpers;
+using eRestaurant.API.DTO;
+using eRestaurant.API.Helpers;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 
-namespace eRestaurant.Extensions
+namespace eRestaurant.API.Extensions
 {
     public static class ExtensionMethods
     {

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using eRestaurant.Repositories;
-using Microsoft.AspNetCore.Http;
+﻿using eRestaurant.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
-namespace eRestaurant.Controllers
+namespace eRestaurant.API.Controllers
 {
     [Route("api/org")]
     [ApiController]

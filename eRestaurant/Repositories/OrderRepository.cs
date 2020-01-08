@@ -1,8 +1,8 @@
-﻿using eRestaurant.Entities;
+﻿using eRestaurant.API.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace eRestaurant.Repositories
+namespace eRestaurant.API.Repositories
 {
     public class OrderRepository : Repository<Order>, IOrderRepository
     {

@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eRestaurant", "eRestaurant\eRestaurant.csproj", "{BE15D8D5-4F48-423B-A623-9E8C2C391A2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eRestaurant.API", "eRestaurant\eRestaurant.API.csproj", "{BE15D8D5-4F48-423B-A623-9E8C2C391A2E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor", "Blazor\Blazor.csproj", "{C4D8DEEE-FD73-451B-9BCD-5F4529128B57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eRestaurant.Blazor", "Blazor\eRestaurant.Blazor.csproj", "{C4D8DEEE-FD73-451B-9BCD-5F4529128B57}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eRestaurant.Shared", "eRestaurant.Shared\eRestaurant.Shared.csproj", "{B3B8C0F0-3EEA-4431-84B6-532D7531E6DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{C4D8DEEE-FD73-451B-9BCD-5F4529128B57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4D8DEEE-FD73-451B-9BCD-5F4529128B57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4D8DEEE-FD73-451B-9BCD-5F4529128B57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3B8C0F0-3EEA-4431-84B6-532D7531E6DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3B8C0F0-3EEA-4431-84B6-532D7531E6DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3B8C0F0-3EEA-4431-84B6-532D7531E6DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3B8C0F0-3EEA-4431-84B6-532D7531E6DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

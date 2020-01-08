@@ -1,14 +1,15 @@
 ﻿using AutoMapper;
-using eRestaurant.DTO;
-using eRestaurant.Entities;
-using eRestaurant.Extensions;
-using eRestaurant.Helpers;
-using eRestaurant.Repositories;
+using eRestaurant.API.DTO;
+using eRestaurant.API.Entities;
+using eRestaurant.API.Extensions;
+using eRestaurant.API.Helpers;
+using eRestaurant.API.Repositories;
+using SharedDto = eRestaurant.Shared.DTO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace eRestaurant.Services
+namespace eRestaurant.API.Services
 {
     public class MenuService : IMenuService
     {
@@ -23,7 +24,7 @@ namespace eRestaurant.Services
             _mapper = mapper;
         }
 
-        public MenuItem GetMenuItem(int id)
+        public SharedDto.MenuItem GetMenuItem(int id)
         {
             var dish = _repo.Get(id);
 
@@ -34,12 +35,12 @@ namespace eRestaurant.Services
             var type = _repo.GetTypeOfDish(id);
             var image = _repo.GetFirstImage(id);
 
-            var menuItem = _mapper.Map<MenuItem>(dish, unit, type, image);
+            var menuItem = _mapper.Map<SharedDto.MenuItem>(dish, unit, type, image);
             menuItem.Rating = _repo.CalculateAvgRating(id);
             return menuItem;
         }
 
-        public PagedList<MenuItem> GetMenu(PagingParameters paging, FilteringParameters filter)
+        public PagedList<SharedDto.MenuItem> GetMenu(PagingParameters paging, FilteringParameters filter)
         {
             List<Dish> dishes;
 
@@ -54,7 +55,7 @@ namespace eRestaurant.Services
                 else
                     dishes = _repo.GetWhereNameContainsOfType(filter.Name, filter.Category).ToList();
 
-            var menu = new List<MenuItem>();
+            var menu = new List<SharedDto.MenuItem>();
             foreach (var dish in dishes)
             {
                 var item = GetMenuItem(dish.Id);
@@ -63,14 +64,14 @@ namespace eRestaurant.Services
             return menu.ToPagedList(paging);
         }
 
-        public DishRequest GetDish(int id)
+        public SharedDto.Dish GetDish(int id)
         {
             var dish = _repo.Get(id);
-            var dishDto = _mapper.Map<DishRequest>(dish);
+            var dishDto = _mapper.Map<SharedDto.Dish>(dish);
             return dishDto;
         }
 
-        public async Task<int> CreateDish(DishRequest dishReq)
+        public async Task<int> CreateDish(SharedDto.Dish dishReq)
         {
             var dish = _mapper.Map<Dish>(dishReq);
             _repo.Add(dish);
@@ -80,7 +81,7 @@ namespace eRestaurant.Services
             return id;
         }
 
-        public async Task UpdateDish(DishRequest dishReq)
+        public async Task UpdateDish(SharedDto.Dish dishReq)
         {
             var dish = _mapper.Map<Dish>(dishReq);
             _uow.ModifyState(dish);

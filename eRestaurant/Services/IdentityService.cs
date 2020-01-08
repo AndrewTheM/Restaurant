@@ -1,6 +1,6 @@
-﻿using eRestaurant.DTO;
-using eRestaurant.Entities;
-using eRestaurant.Repositories;
+﻿using eRestaurant.API.DTO;
+using eRestaurant.API.Entities;
+using eRestaurant.API.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -11,7 +11,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eRestaurant.Services
+namespace eRestaurant.API.Services
 {
     public class IdentityService : IIdentityService
     {

@@ -1,7 +1,7 @@
-﻿using eRestaurant.Entities;
+﻿using eRestaurant.API.Entities;
 using System.Collections.Generic;
 
-namespace eRestaurant.Repositories
+namespace eRestaurant.API.Repositories
 {
     public interface IOrderRepository : IRepository<Order>
     {
