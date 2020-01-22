@@ -1,0 +1,47 @@
+﻿@page "/login"
+@inject HttpClient http
+@inject ILoginService loginService
+@inject IJSRuntime js
+@inject NavigationManager navigationManager
+@using eRestaurant.Blazor.Auth
+
+<h3>Log in</h3>
+
+<EditForm Model="credentials" OnValidSubmit="LoginUser">
+    <DataAnnotationsValidator />
+
+    <div class="form-group">
+        <label>Email:</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@credentials.Email" />
+            <ValidationMessage For="@(() => credentials.Email)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Password:</label>
+        <div>
+            <input type="password" class="form-control" @bind="@credentials.Password" />
+            <ValidationMessage For="@(() => credentials.Password)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Log in</button>
+
+</EditForm>
+
+@code {
+    private Credentials credentials = new Credentials();
+
+    async Task LoginUser()
+    {
+        var info = await http.PostJsonAsync<TokenInfo>("api/auth/login", credentials);
+        if (info.Token != null)
+        {
+            await loginService.Login(info.Token);
+            navigationManager.NavigateTo("");
+        }
+        else
+            await js.InvokeVoidAsync("alert", info.Errors.Aggregate((s1, s2) => $"{s1}\n{s2}"));
+    }
+}

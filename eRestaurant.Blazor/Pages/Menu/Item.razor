@@ -1,0 +1,45 @@
+﻿@page "/menu/{Id:int}"
+@inject HttpClient http
+@inject IJSRuntime js
+@inject NavigationManager nav
+@*@attribute [Authorize]*@
+
+@if (item != null)
+{
+    <h1>@item.Type @item.Name</h1>
+
+    <AuthorizeView Roles="admin">
+        <Authorized>
+            <div class="form-group">
+                <a class="btn btn-info" href="menu/edit/@Id">Edit</a>
+                <a class="btn btn-danger" href="" @onclick="async () => await DeleteItem()">Delete</a>
+            </div>
+        </Authorized>
+    </AuthorizeView>
+}
+else
+{
+    <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" />
+}
+
+@code {
+    [Parameter] public int Id { get; set; }
+    private MenuItem item;
+
+    protected async override Task OnParametersSetAsync()
+    {
+        item = await http.GetJsonAsync<MenuItem>($"api/menu/{Id}");
+    }
+
+    private async Task DeleteItem()
+    {
+        bool confirmed = await js.InvokeAsync<bool>("confirm", "Are you sure to delete this item?");
+        if (confirmed)
+        {
+            await http.DeleteAsync($"/api/menu/{Id}");
+            nav.NavigateTo("menu");
+        }
+        else
+            nav.NavigateTo($"menu/{Id}");
+    }
+}
